@@ -1,0 +1,12 @@
+Metrics/LineLength:
+  Max: 999
+Metrics/MethodLength:
+  Max: 999
+Style/Documentation:
+  Enabled: false
+Style/SpaceBeforeBlockBraces:
+  EnforcedStyle: no_space
+Style/RedundantSelf:
+  Enabled: false
+Style/WordArray:
+  Enabled: false

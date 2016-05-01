@@ -1,0 +1,26 @@
+# Default
+cache
+log/*.log
+VM/*.log
+tmp/**/*
+public/system/**
+public/uploads/
+db/schema.rb
+dump.rdb
+coverage/
+
+# Configuration
+config/application.yml
+config/database.yml
+config/secrets.yml
+
+# OS-Generated
+.DS_Store
+
+# IDE-Generated
+.idea/
+.bashrc
+
+# Misc
+*~
+.ruby-version

@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/recastai'
+
+raise 'You must provide a token for your sentence to be processed' unless ARGV.any? && !ARGV[0].nil?
+raise 'You must provide a sentence to be processed' unless ARGV.any? && !ARGV[1].nil?
+
+client   = RecastAI::Client.new(ARGV[0])
+response = client.text_request(ARGV[1])
+
+ap JSON.parse(response.raw)
