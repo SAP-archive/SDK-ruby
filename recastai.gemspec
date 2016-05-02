@@ -7,18 +7,19 @@ require 'date'
 require 'lib/recastai/utils'
 
 Gem::Specification.new do |spec|
-  spec.name             = 'RecastAI'
-  spec.version          = RecastAI::Utils::VERSION
-  spec.date             = Date.today
-  spec.summary          = %q(Recast.AI official SDK in Ruby)
-  spec.description      = %q(Recast.AI official SDK in Ruby. Allows you to make requests to your bots.)
-  spec.homepage         = 'https://github.com/RecastAI/SDK-ruby'
-  spec.license          = 'MIT'
-  spec.authors          = ['Paul Renvoisé']
-  spec.email            = 'paul.renvoise@recast.ai'
-  spec.files            = `git ls-files -z`.split("\x0").reject{ |f| f.match(%r{^(test|spec|features)/}) }
-  spec.executables      = ['text', 'file']
-  spec.require_paths    = ['lib']
+  spec.name                  = 'RecastAI'
+  spec.version               = RecastAI::Utils::VERSION
+  spec.date                  = Date.today
+  spec.summary               = %q(Recast.AI official SDK in Ruby)
+  spec.description           = %q(Recast.AI official SDK in Ruby. Allows you to make requests to your bots.)
+  spec.homepage              = 'https://github.com/RecastAI/SDK-ruby'
+  spec.license               = 'MIT'
+  spec.authors               = ['Paul Renvoisé']
+  spec.email                 = 'paul.renvoise@recast.ai'
+  spec.files                 = `git ls-files -z`.split("\x0").reject{ |f| f.match(%r{^(test|spec|features)/}) }
+  spec.executables           = ['text', 'file']
+  spec.require_paths         = ['lib']
+  spec.required_ruby_version = '>= 2.2'
 
   spec.add_dependency 'httparty', '~> 0.13'
   spec.add_dependency 'httmultiparty', '~> 0.3'
