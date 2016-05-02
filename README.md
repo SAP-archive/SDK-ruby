@@ -77,7 +77,7 @@ You can find more examples in the `misc/` folder.
 ```
 
 ```bash
-./bin/file YOUR_VOICE_FILE YOUR_TEXT
+./bin/file YOUR_TOKEN YOUR_VOICE_FILE
 # => Recast.AI's response
 ```
 
