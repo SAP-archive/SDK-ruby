@@ -147,11 +147,11 @@ In addition to this method, more attributes are generated depending of the natur
 * lng(\*)
 * lat(\*)
 * unit(\*)
-...
+* ...
 
 ## More
 
-You can view the whole API reference at [man.recast.ai](#https://man.recast.ai).
+You can view the whole API reference at [man.recast.ai](https://man.recast.ai).
 
 
 ## License
