@@ -147,7 +147,20 @@ In addition to this method, more attributes are generated depending of the natur
 * lng(\*)
 * lat(\*)
 * unit(\*)
-* ...
+* code(\*)
+* person(\*)
+* number(\*)
+* gender(\*)
+* next(\*)
+* grain(\*)
+* order(\*)
+
+### RecastAI::RecastError
+
+The Recast.AI Error is thrown when receiving an non-200 response from Recast.AI, it implements the following methods:
+
+* message(\*) *Returns the message of the error*
+* code(\*) *Returns the error code*
 
 ## More
 
