@@ -46,21 +46,11 @@ gem install RecastAI-*.gem
 ### Gem
 
 ```ruby
-require 'RecastAI'
+require 'recastai'
 
 client = RecastAI::Client.new(YOUR_TOKEN)
 response = client.text_request(YOUR_TEXT)
-
-if response.intent == YOUR_EXPECTED_INTENT
-  # Do your code...
-end
-```
-
-```ruby
-require 'RecastAI'
-
-client = RecastAI::Client.new(YOUR_TOKEN)
-response = client.file_request(File.new(File.join(File.dirname(__FILE__), YOUR_FILE)))
+#response = client.file_request(File.new(File.join(File.dirname(__FILE__), YOUR_FILE)))
 
 if response.intent == YOUR_EXPECTED_INTENT
   # Do your code...
@@ -157,10 +147,9 @@ In addition to this method, more attributes are generated depending of the natur
 
 ### RecastAI::RecastError
 
-The Recast.AI Error is thrown when receiving an non-200 response from Recast.AI, it implements the following methods:
+The Recast.AI Error is thrown when receiving an non-200 response from Recast.AI.
 
-* message(\*) *Returns the message of the error*
-* code(\*) *Returns the error code*
+As it inherits from ::Exception, it implements the default expection methods.
 
 ## More
 

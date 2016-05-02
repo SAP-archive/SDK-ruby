@@ -18,13 +18,13 @@ module RecastAI
     #   - RecastError
     def text_request(text, options = {})
       token = options[:token] || @token
-      raise(RecastError.new('Token is missing', 400)) if token.nil?
+      raise(RecastError.new('Token is missing')) if token.nil?
 
       response = HTTParty.post(Utils::API_ENDPOINT,
                                body: { 'text' => text },
                                headers: { 'Authorization' => "Token #{token}" }
                               )
-      raise(RecastError.new(response.message, response.code)) if response.code != 200
+      raise(RecastError.new(response.message)) if response.code != 200
 
       Response.new(response.body)
     end
@@ -41,13 +41,13 @@ module RecastAI
     #   - RecastError
     def file_request(file, options = {})
       token = options[:token] || @token
-      raise(RecastError.new('Token is missing', 400)) if token.nil?
+      raise(RecastError.new('Token is missing')) if token.nil?
 
       response = HTTMultiParty.post(Utils::API_ENDPOINT,
                                     body: { 'voice' => File.new(file) },
                                     headers: { 'Authorization' => "Token #{token}" }
                                    )
-      raise(RecastError.new(response.message, response.code)) if response.code != 200
+      raise(RecastError.new(response.message)) if response.code != 200
 
       Response.new(response.body)
     end
