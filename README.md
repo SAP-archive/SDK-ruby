@@ -37,7 +37,7 @@ From [github.com](https://github.com/):
 ```bash
 git clone https://github.com/RecastAI/SDK-ruby
 gem build recastai.gemspec
-gem install recastai-*.gem
+gem install RecastAI-*.gem
 ```
 
 
