@@ -8,6 +8,11 @@ Recast.AI official SDK in Ruby.
 This gem is a pure Ruby interface to the [Recast.AI](https://recast.ai) API. It allows you to make requests to your bots.
 
 
+## Requirements
+
+* Ruby 2.2+
+
+
 ## Installation
 
 ### Via Gemfile
@@ -154,6 +159,13 @@ As it inherits from ::Exception, it implements the default expection methods.
 ## More
 
 You can view the whole API reference at [man.recast.ai](https://man.recast.ai).
+
+
+## Author
+
+Paul Renvoisé, paul.renvoise@recast.ai, [@paulrenvoise](https://twitter.com/paulrenvoise)
+
+You can follow us on Twitter at [@recastai](https://twitter.com/recastai) for updates and releases.
 
 
 ## License
