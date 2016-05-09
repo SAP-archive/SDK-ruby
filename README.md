@@ -1,6 +1,6 @@
 # SDK-ruby
 
-[logo]: https://github.com/RecastAI/SDK-ruby/blob/master/misc/logo-inline.png "Recast.AI"
+![logo](https://raw.githubusercontent.com/RecastAI/SDK-ruby/master/misc/logo-inline.png "Recast.AI")
 
 [![Version](https://badge.fury.io/rb/RecastAI.svg)](https://badge.fury.io/rb/RecastAI)
 
