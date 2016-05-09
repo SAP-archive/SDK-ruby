@@ -1,4 +1,4 @@
-# SDK-ruby
+# RecastAI - Ruby SDK
 
 [![Version](https://badge.fury.io/rb/RecastAI.svg)](https://badge.fury.io/rb/RecastAI)
 
