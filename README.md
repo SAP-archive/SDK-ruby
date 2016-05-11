@@ -158,7 +158,7 @@ In addition to this method, more attributes are generated depending of the natur
 
 The Recast.AI Error is thrown when receiving an non-200 response from Recast.AI.
 
-As it inherits from ::Exception, it implements the default expection methods.
+As it inherits from ::Exception, it implements the default exception methods.
 
 ## More
 
