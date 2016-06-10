@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    RecastAI (1.0.1)
+    RecastAI (1.1.0)
       httmultiparty (~> 0.3)
       httparty (~> 0.13)
 

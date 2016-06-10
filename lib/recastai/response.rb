@@ -52,7 +52,7 @@ module RecastAI
     def get(name)
       @sentences.each do |sentence|
         sentence.entities.each do |entity|
-          return entity if entity.name.downcase == name.to_s.downcase
+          return entity if entity.name.casecmp(name.to_s) == 0
         end
       end
 
@@ -66,12 +66,29 @@ module RecastAI
     #   - +name+ - String, the entities' names
     # * *Returns* :
     #   - An array of instances of Entity or an empty array
-    def all(name = nil)
+    def all(name)
       entities = []
 
       @sentences.each do |sentence|
         sentence.entities.each do |entity|
-          entities << entity if entity.name.downcase == name.to_s.downcase
+          entities << entity if entity.name.casecmp(name.to_s) == 0
+        end
+      end
+
+      entities
+    end
+
+    ##
+    # Returns all entities
+    #
+    # * *Returns* :
+    #   - An array of instances of Entity or an empty array
+    def entities
+      entities = []
+
+      @sentences.each do |sentence|
+        sentence.entities.each do |entity|
+          entities << entity
         end
       end
 

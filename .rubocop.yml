@@ -10,3 +10,5 @@ Style/RedundantSelf:
   Enabled: false
 Style/WordArray:
   Enabled: false
+Style/RaiseArgs:
+    EnforcedStyle: compact

@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.name                  = 'RecastAI'
   spec.version               = RecastAI::Utils::VERSION
   spec.date                  = Date.today
-  spec.summary               = %q(Recast.AI official SDK in Ruby)
-  spec.description           = %q(Recast.AI official SDK in Ruby. Allows you to make requests to your bots.)
+  spec.summary               = %q(Recast.AI official SDK for Ruby)
+  spec.description           = %q(Recast.AI official SDK for Ruby. Allows you to make requests to your bots.)
   spec.homepage              = 'https://github.com/RecastAI/SDK-ruby'
   spec.license               = 'MIT'
   spec.authors               = ['Paul Renvoisé']

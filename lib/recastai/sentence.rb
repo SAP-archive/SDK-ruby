@@ -15,5 +15,37 @@ module RecastAI
       @polarity = sentence['polarity']
       @entities = sentence['entities'].flat_map{ |n, e| e.map{ |ee| Entity.new(n, ee) } }
     end
+
+    ##
+    # Returns the first entity whose name matches the parameter
+    #
+    # * *Args* :
+    #   - +name+ - String, the entity's name
+    # * *Returns* :
+    #   - An instance of Entity or nil
+    def get(name)
+      @entities.each do |entity|
+        return entity if entity.name.casecmp(name.to_s) == 0
+      end
+
+      nil
+    end
+
+    ##
+    # Returns all entities whose names matches the parameter
+    #
+    # * *Args* :
+    #   - +name+ - String, the entities' names
+    # * *Returns* :
+    #   - An array of instances of Entity or an empty array
+    def all(name)
+      entities = []
+
+      @entities.each do |entity|
+        entities << entity if entity.name.casecmp(name.to_s) == 0
+      end
+
+      entities
+    end
   end
 end

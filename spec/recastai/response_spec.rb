@@ -26,6 +26,8 @@ describe RecastAI::Response do
     expect(response.get('location')).to eq(entity)
     entities = response.sentence.entities.map{ |e| e if e.name.downcase == 'location' }
     expect(response.all('location')).to eq(entities)
+    entities = response.sentences.map{ |s| s.entities }.flatten
+    expect(response.entities).to eq(entities)
   end
 end
 

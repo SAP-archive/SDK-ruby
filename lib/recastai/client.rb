@@ -2,8 +2,9 @@ module RecastAI
   class Client
     attr_accessor :token
 
-    def initialize(token = nil)
+    def initialize(token = nil, language = nil)
       @token = token
+      @language = language
     end
 
     ##
@@ -20,8 +21,12 @@ module RecastAI
       token = options[:token] || @token
       raise(RecastError.new('Token is missing')) if token.nil?
 
+      language = options[:language] || @language
+
+      body = { 'text' => text }
+      body['language'] = language unless language.nil?
       response = HTTParty.post(Utils::API_ENDPOINT,
-                               body: { 'text' => text },
+                               body: body,
                                headers: { 'Authorization' => "Token #{token}" }
                               )
       raise(RecastError.new(response.message)) if response.code != 200
@@ -43,8 +48,12 @@ module RecastAI
       token = options[:token] || @token
       raise(RecastError.new('Token is missing')) if token.nil?
 
+      language = options[:language] || @language
+
+      body = { 'voice' => File.new(file) }
+      body['language'] = language unless language.nil?
       response = HTTMultiParty.post(Utils::API_ENDPOINT,
-                                    body: { 'voice' => File.new(file) },
+                                    body: body,
                                     headers: { 'Authorization' => "Token #{token}" }
                                    )
       raise(RecastError.new(response.message)) if response.code != 200
