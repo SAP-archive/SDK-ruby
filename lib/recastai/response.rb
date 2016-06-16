@@ -4,6 +4,7 @@ module RecastAI
     attr_reader :source
     attr_reader :intents
     attr_reader :sentences
+    attr_reader :language
     attr_reader :version
     attr_reader :timestamp
     attr_reader :status
@@ -17,6 +18,7 @@ module RecastAI
       @source    = response['source']
       @intents   = response['intents']
       @sentences = response['sentences'].map{ |s| Sentence.new(s) }
+      @language  = response['language']
       @version   = response['version']
       @timestamp = response['timestamp']
       @status    = response['status']
