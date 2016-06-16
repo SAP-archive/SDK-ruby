@@ -146,7 +146,8 @@ The Recast.AI Response is generated after a call with the two previous methods a
 * get(name) *Returns the first entity matching -name-*
 * all(name) *Returns all the entities matching -name-*
 * entities(\*) *Returns all the entities*
-* version(\*) *Returns the version of the JSON*
+* language(\*) *Returns the language of the processed sentence*
+* version(\*) *Returns the version of the API*
 * timestamp(\*) *Returns the timestamp at the end of the processing*
 * status(\*) *Returns the status of the response*
 
