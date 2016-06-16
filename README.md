@@ -106,6 +106,11 @@ If no language is provided in the request, Recast.AI does the following:
 * text_request: the language of the text is detected and is used for processing if your bot has expressions for it, else your bot's primary language is used for processing.
 * voice_request: your bot's primary language is used for processing as we do not provide language detection for speech.
 
+If a language is provided, Recast.AI does the following:
+
+* text_request: the language you've given is used for processing if your bot has expressions for it, else your bot's primary language is used.
+* voice_request: the language you've given is used for processing if your bot has expressions for it, else your bot's primary language is used
+
 *Accepted options are :token, :language, to override the defaults provided at initialization*
 
 ```ruby
