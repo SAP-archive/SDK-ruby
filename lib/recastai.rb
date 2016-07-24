@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'httparty'
@@ -8,7 +10,7 @@ require 'recastai/utils'
 require 'recastai/errors'
 require 'recastai/client'
 require 'recastai/response'
-require 'recastai/sentence'
+require 'recastai/intent'
 require 'recastai/entity'
 
 require 'awesome_print'

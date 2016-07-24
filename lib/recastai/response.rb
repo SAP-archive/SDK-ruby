@@ -1,9 +1,15 @@
+# encoding: utf-8
+
 module RecastAI
   class Response
     attr_reader :raw
     attr_reader :source
     attr_reader :intents
-    attr_reader :sentences
+    attr_reader :act
+    attr_reader :type
+    attr_reader :polarity
+    attr_reader :sentiment
+    attr_reader :entities
     attr_reader :language
     attr_reader :version
     attr_reader :timestamp
@@ -16,8 +22,12 @@ module RecastAI
       response = response['results']
 
       @source    = response['source']
-      @intents   = response['intents']
-      @sentences = response['sentences'].map{ |s| Sentence.new(s) }
+      @intents   = response['intents'].map{ |i| Intent.new(i) }
+      @act       = response['act']
+      @type      = response['type']
+      @polarity  = response['polarity']
+      @sentiment = response['sentiment']
+      @entities  = response['entities'].flat_map{ |n, e| e.map{ |ee| Entity.new(n, ee) } }
       @language  = response['language']
       @version   = response['version']
       @timestamp = response['timestamp']
@@ -35,16 +45,6 @@ module RecastAI
     end
 
     ##
-    # Returns the first sentence provided there is one
-    #
-    # * *Args* :
-    # * *Returns* :
-    #   - A Sentence or nil
-    def sentence
-      @sentences.any? ? @sentences.first : nil
-    end
-
-    ##
     # Returns the first entity whose name matches the parameter
     #
     # * *Args* :
@@ -52,10 +52,8 @@ module RecastAI
     # * *Returns* :
     #   - An instance of Entity or nil
     def get(name)
-      @sentences.each do |sentence|
-        sentence.entities.each do |entity|
-          return entity if entity.name.casecmp(name.to_s) == 0
-        end
+      @entities.each do |entity|
+        return entity if entity.name.casecmp(name.to_s) == 0
       end
 
       nil
@@ -69,32 +67,79 @@ module RecastAI
     # * *Returns* :
     #   - An array of instances of Entity or an empty array
     def all(name)
-      entities = []
-
-      @sentences.each do |sentence|
-        sentence.entities.each do |entity|
-          entities << entity if entity.name.casecmp(name.to_s) == 0
-        end
+      @entities.select do |entity|
+        entity.name.casecmp(name.to_s) == 0
       end
-
-      entities
     end
 
     ##
-    # Returns all entities
+    # Return whether or not the act is an assertion
     #
-    # * *Returns* :
-    #   - An array of instances of Entity or an empty array
-    def entities
-      entities = []
+    # + *Args* :
+    # + *Returns* :
+    #   - True or False
+    def assert?
+      @act == Utils::ACT_ASSERT
+    end
 
-      @sentences.each do |sentence|
-        sentence.entities.each do |entity|
-          entities << entity
-        end
-      end
+    ##
+    # Return whether or not the act is a command
+    #
+    # + *Args* :
+    # + *Returns* :
+    #   - True or False
+    def command?
+      @act == Utils::ACT_COMMAND
+    end
 
-      entities
+    ##
+    # Return whether or not the act is a wh-query
+    #
+    # + *Args* :
+    # + *Returns* :
+    #   - True or False
+    def wh_query?
+      @act == Utils::ACT_WH_QUERY
+    end
+
+    ##
+    # Return whether or not the act is a yn-query
+    #
+    # + *Args* :
+    # + *Returns* :
+    #   - True or False
+    def yn_query?
+      @act == Utils::ACT_YN_QUERY
+    end
+
+    ##
+    # Return whether or not the sentiment is positive
+    #
+    # + *Args* :
+    # + *Returns* :
+    #   - True or False
+    def positive?
+      @sentiment == Utils::SENTIMENT_POSITIVE
+    end
+
+    ##
+    # Return whether or not the sentiment is neutral
+    #
+    # + *Args* :
+    # + *Returns* :
+    #   - True or False
+    def neutral?
+      @sentiment == Utils::SENTIMENT_NEUTRAL
+    end
+
+    ##
+    # Return whether or not the sentiment is negative
+    #
+    # + *Args* :
+    # + *Returns* :
+    #   - True or False
+    def negative?
+      @sentiment == Utils::SENTIMENT_NEGATIVE
     end
   end
 end
