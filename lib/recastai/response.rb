@@ -7,7 +7,6 @@ module RecastAI
     attr_reader :intents
     attr_reader :act
     attr_reader :type
-    attr_reader :polarity
     attr_reader :sentiment
     attr_reader :entities
     attr_reader :language
@@ -25,7 +24,7 @@ module RecastAI
       @intents   = response['intents'].map{ |i| Intent.new(i) }
       @act       = response['act']
       @type      = response['type']
-      @polarity  = response['polarity']
+      @negated   = response['negated']
       @sentiment = response['sentiment']
       @entities  = response['entities'].flat_map{ |n, e| e.map{ |ee| Entity.new(n, ee) } }
       @language  = response['language']
@@ -110,6 +109,76 @@ module RecastAI
     #   - True or False
     def yn_query?
       @act == Utils::ACT_YN_QUERY
+    end
+
+    ##
+    # Return whether or not the type is an abbreviation
+    #
+    # + *Args* :
+    # + *Returns* :
+    #   - True or False
+    def abbreviation?
+      !@type.index(Utils::TYPE_ABBREVIATION).nil?
+    end
+
+    ##
+    # Return whether or not the type is an entity
+    #
+    # + *Args* :
+    # + *Returns* :
+    #   - True or False
+    def entity?
+      !@type.index(Utils::TYPE_ENTITY).nil?
+    end
+
+    ##
+    # Return whether or not the type is a description
+    #
+    # + *Args* :
+    # + *Returns* :
+    #   - True or False
+    def description?
+      !@type.index(Utils::TYPE_DESCRIPTION).nil?
+    end
+
+    ##
+    # Return whether or not the type is a human
+    #
+    # + *Args* :
+    # + *Returns* :
+    #   - True or False
+    def human?
+      !@type.index(Utils::TYPE_HUMAN).nil?
+    end
+
+    ##
+    # Return whether or not the type is a location
+    #
+    # + *Args* :
+    # + *Returns* :
+    #   - True or False
+    def location?
+      !@type.index(Utils::TYPE_LOCATION).nil?
+    end
+
+    ##
+    # Return whether or not the type is a number
+    #
+    # + *Args* :
+    # + *Returns* :
+    #   - True or False
+    def number?
+      !@type.index(Utils::TYPE_NUMBER).nil?
+    end
+
+    ##
+    # Returns whether or not the source is negated
+    #
+    # * *Args* :
+    # * *Returns* :
+    #   - True or False
+    def negated?
+      !@negated.zero?
     end
 
     ##
