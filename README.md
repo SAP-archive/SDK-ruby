@@ -1,4 +1,4 @@
-# RecastAI - Ruby SDK
+# Recast.AI - Ruby SDK
 
 [![Version](https://badge.fury.io/rb/RecastAI.svg)](https://badge.fury.io/rb/RecastAI)
 
@@ -19,63 +19,26 @@ This gem is a pure Ruby interface to the [Recast.AI](https://recast.ai) API. It 
 
 ## Installation
 
-### Via Gemfile
-
-From [rubygems.org](https://rubygems.org/):
-
-```bash
-gem 'RecastAI'
-```
-
-From [github.com](https://github.com/):
-
-```bash
-gem 'RecastAI', github: 'RecastAI/SDK-ruby'
-```
-
-### Via Terminal
-
-From [rubygems.org](https://rubygems.org/):
-
 ```bash
 gem install 'RecastAI'
 ```
 
-From [github.com](https://github.com/):
-
-```bash
-git clone https://github.com/RecastAI/SDK-ruby
-gem build recastai.gemspec
-gem install RecastAI-*.gem
-```
-
-
 ## Usage
-
-### Gem
 
 ```ruby
 require 'recastai'
 
 client = RecastAI::Client.new(YOUR_TOKEN, YOUR_LANGUAGE)
-response = client.text_request(YOUR_TEXT)
-#response = client.file_request(File.new(File.join(File.dirname(__FILE__), YOUR_FILE)))
 
-if response.intent == YOUR_EXPECTED_INTENT
+# text request
+responseFromText = client.text_request(YOUR_TEXT)
+
+# file request
+responseFromFile = client.file_request(File.new(File.join(File.dirname(__FILE__), YOUR_FILE)))
+
+if responseFromText.intent == YOUR_EXPECTED_INTENT
   # Do your code...
 end
-```
-
-### CLI
-
-```bash
-./bin/text YOUR_TOKEN YOUR_TEXT
-# => Recast.AI's response
-```
-
-```bash
-./bin/file YOUR_TOKEN YOUR_VOICE_FILE
-# => Recast.AI's response
 ```
 
 ## Specs
@@ -92,140 +55,212 @@ This gem contains 5 main classes, as follows:
 
 Don't hesitate to dive into the code, it's commented ;)
 
-### RecastAI::Client
+## RecastAI::Client
 
-The Recast.AI Client can be instanciated with a token (optional) and a language (optional) and provides the two following methods:
-
-* text_request(text, options = {}) *Performs a text request*
-* file_request(file, options = {}) *Performs a voice file request*
-
-On each call to `text_request` or `file_request` your can override either your token or your language by passing a hash of options.
-
-If no language is provided in the request, Recast.AI does the following:
-
-* text_request: the language of the text is detected and is used for processing if your bot has expressions for it, else your bot's primary language is used for processing.
-* voice_request: your bot's primary language is used for processing as we do not provide language detection for speech.
-
-If a language is provided, Recast.AI does the following:
-
-* text_request: the language you've given is used for processing if your bot has expressions for it, else your bot's primary language is used.
-* voice_request: the language you've given is used for processing if your bot has expressions for it, else your bot's primary language is used
-
-*Accepted options are :token, :language, to override the defaults provided at initialization*
+The Client can be instanciated with a token and a language (both optional)
 
 ```ruby
-require 'recastai'
+client = RecastAI::Client.new(YOUR_TOKEN, YOUR_LANGUAGE)
+```
 
-client = RecastAI::Client.new(YOUR_TOKEN, YOUR LANGUAGE)
+#### Your tokens
 
-# Performs a text request on Recast.AI
+
+*Copy paste your request access token in your bot's settings*
+
+#### Your language
+
+```ruby
+client = RecastAI::Client.new(YOUR_TOKEN, 'en')
+```
+
+*The language is a lowercase isocode.*
+
+### Text Request
+
+text_request(text, options = {})
+
+If you pass a token or a language in the options parameter, it will override your default client language or token
+
+```ruby
+response = client.text_request(YOUR_TEXT)
+
+if response.intent == YOUR_EXPECTED_INTENT
+  # Do your code...
+end
+```
+
+```ruby
+# With optional parameters
 response = client.text_request(YOUR_TEXT, { token: YOUR_TOKEN, language: YOUR_LANGUAGE })
+```
+
+__If a language is provided:__ the language you've given is used for processing if your bot has expressions for it, else your bot's primary language is used.
+
+__If no language is provided:__ the language of the text is detected and is used for processing if your bot has expressions for it, else your bot's primary language is used for processing.
+
+### File request
+
+file_request(file, options = {})
+
+If you pass a token or a language in the option parameter, it will override your default client language or token.
+
+__file format: .wav__
+```ruby
+response = client.file_request(File.new(File.join(File.dirname(__FILE__),YOUR_FILE)))
 
 if response.intent == YOUR_EXPECTED_INTENT
   # Do your code...
 end
+```
 
-# Performs a voice file request on Recast.AI
+```ruby
+# with optional parameters
 response = client.file_request(File.new(File.join(File.dirname(__FILE__),YOUR_FILE)), { token: YOUR_TOKEN, language: YOUR_LANGUAGE })
+```
+
+__If a language is provided:__ the language you've given is used for processing if your bot has expressions for it, else your bot's primary language is used
+
+__If no language is provided:__ your bot's primary language is used for processing as we do not provide language detection for speech.
+
+
+## RecastAI::Response
+
+The Response is generated after a call to either file_request or text_request.
+
+#### Get the first detected intent
+
+| Method        | Params | Return                    |
+| ------------- |:------:| :-------------------------|
+| intent()      |        | the first detected intent |
+
+```ruby
+response = client.text_request(YOUR_TEXT)
 
 if response.intent == YOUR_EXPECTED_INTENT
   # Do your code...
 end
 ```
 
-### RecastAI::Response
+#### Get the first sentence
 
-The Recast.AI Response is generated after a call with the two previous methods and contains the following methods:
-
-* raw(\*) *Returns the raw unparsed response*
-* source(\*) *Returns the source sentence Recast.AI processed*
-* intents(\*) *Returns all the matched intents*
-* intent(\*) *Returns the first matched intent*
-* sentences(\*) *Returns all the detected sentences*
-* sentence(\*) *Returns the first detected sentence*
-* get(name) *Returns the first entity matching -name-*
-* all(name) *Returns all the entities matching -name-*
-* entities(\*) *Returns all the entities*
-* language(\*) *Returns the language of the processed sentence*
-* version(\*) *Returns the version of the API*
-* timestamp(\*) *Returns the timestamp at the end of the processing*
-* status(\*) *Returns the status of the response*
+| Method          | Params | Return             |
+| --------------- |:------:| :------------------|
+| sentence()      |        | the first sentence |
 
 ```ruby
-response = client.text_request('Give me some recipes with potatoes. And cheese.')
+response = client.text_request(YOUR_TEXT)
 
-# Get the first sentence, aka 'Give me some recipes with potatoes'
 first_sentence = response.sentence
-
-# If the first intent matched 'recipe'...
-if response.intent == 'recipe'
-  # ...get all the entities matching 'ingredient'
-  ingredients = response.all('ingredient')
-
-  puts "The request has been filled at #{response.timestamp}"
-end
 ```
 
-### RecastAI::Sentence
+#### Get the first entity matching name
 
-The Recast.AI Sentence is generated by the Recast.AI Response initializer and provides the following methods:
-
-* source(\*) *Returns the source of the sentence*
-* type(\*) *Returns the type of the sentence*
-* action(\*) *Returns the action of the sentence*
-* agent(\*) *Returns the agent of the sentence*
-* polarity(\*) *Returns the polarity (negation or not) of the sentence*
-* get(name) *Returns the first entity matching -name-*
-* all(name) *Returns all the entities matching -name-*
-* entities(\*) *Returns all the entities detected in the sentence*
+| Method     | Params        | Return                   |
+| ---------- |:-------------:| :------------------------|
+| get(name)  | name: String  | the first Entity matched |
 
 ```ruby
-response = client.text_request('Tell me a joke.')
-# Get the first sentence
-sentence = response.sentence
+response = client.text_request(YOUR_TEXT)
 
-if sentence.action == 'tell' && sentence.polarity == 'positive'
-  # Tell a joke...
-end
+location = response.get('location')
 ```
 
-### RecastAI::Entity
+#### Get all entities matching name
 
-The Recast.AI Entity is generated by the Recast.AI Sentence initializer and provides the following method:
-
-* name(\*) *Returns the name of the entity*
-* raw(\*) *Returns the raw text on which the entity was detected*
-
-In addition to this method, more attributes are generated depending of the nature of the entity, which can be one of the following:
-
-* hex(\*)
-* value(\*)
-* deg(\*)
-* formated(\*)
-* lng(\*)
-* lat(\*)
-* unit(\*)
-* code(\*)
-* person(\*)
-* number(\*)
-* gender(\*)
-* next(\*)
-* grain(\*)
-* order(\*)
+| Method     | Params        | Return                   |
+| ---------- |:-------------:| :------------------------|
+| all(name)  | name: String  | all the Entities matched |
 
 ```ruby
-response = client.text_request('What can I cook with salmon ?')
+response = client.text_request(YOUR_TEXT)
 
-if response.intent == 'recipe'
-  # Get the ingredient
-  ingredient = response.get('ingredient')
-
-  puts "You asked me for a recipe with #{ingredient.value}"
-end
-
+locations = response.all('location')
 ```
 
-### RecastAI::RecastError
+#### Getters
+
+Each of the following methods corresponds to a Response attribute
+
+| Method        | Params | Return                                              |
+| ------------- |:------:| :---------------------------------------------------|
+| raw()         |        | String: the raw unparsed json response              |
+| source()      |        | String: the user input                              |
+| intents()     |        | Array[object]: all the matched intents              |
+| sentences()   |        | Array[Sentence]: all the detected sentences         |
+| version()     |        | String: the version of the json                     |
+| timestamp()   |        | String: the timestamp at the end of the processing  |
+| status()      |        | String: the status of the response                  |
+| type()        |        | String: the type of the response                    |
+
+
+## RecastAI::Sentence
+
+The Sentence is generated by the Recast.AI Response initializer
+
+#### Get the first entity matching name
+
+| Method     | Params        | Return                   |
+| ---------- |:-------------:| :------------------------|
+| get(name)  | name: String  | the first Entity matched |
+
+```ruby
+response = client.text_request(YOUR_TEXT)
+
+sentence = response.sentence()
+
+location = sentence.get('location')
+```
+
+#### Get all entities matching name
+
+| Method     | Params        | Return                   |
+| ---------- |:-------------:| :------------------------|
+| all(name)  | name: String  | all the Entities matched |
+
+```ruby
+response = client.text_request(YOUR_TEXT)
+
+sentence = response.sentence()
+
+locations = sentence.all('location')
+```
+
+#### Getters
+
+Each of the following methods corresponds to a Response attribute
+
+| Method      | Params | Return                                               |
+| ----------- |:------:| :----------------------------------------------------|
+| source      |        | String: the source of the sentence                   |
+| type        |        | String: the type of the sentence                     |
+| action      |        | String: The action of the sentence                   |
+| agent       |        | String: the agent of the sentence                    |
+| polarity    |        | String: the polarity of the sentence                 |
+| entities    |        | Array[Entity]: the entities detected in the sentence |
+
+## RecastAI::Entity
+
+Each of the following methods corresponds to a Response attribute
+
+| Attributes  | Description                                                   |
+| ----------- |:--------------------------------------------------------------|
+| name        | String: the name of the entity                                |
+| raw         | String: the unparsed json value of the entity                 |
+
+In addition to those methods, more attributes are generated depending of the nature of the entity.
+The full list can be found there: [man.recast.ai](https://man.recast.ai/#list-of-entities)
+
+```ruby
+response = client.text_request(YOUR_TEXT)
+
+location = response.get('location')
+
+puts location.raw()
+puts location.name()
+```
+
+## RecastAI::RecastError
 
 The Recast.AI Error is thrown when receiving an non-200 response from Recast.AI.
 
