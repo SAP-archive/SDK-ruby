@@ -65,6 +65,10 @@ client = RecastAI::Client.new(YOUR_TOKEN, YOUR_LANGUAGE)
 
 __Your tokens__
 
+[token]: https://github.com/RecastAI/SDK-NodeJs/blob/master/misc/recast-ai-tokens.png "Tokens"
+
+![alt text][token]
+
 *Copy paste your request access token in your bot's settings*
 
 __Your language__
