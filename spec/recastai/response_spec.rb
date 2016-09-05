@@ -42,8 +42,10 @@ describe RecastAI::Response do
     expect(response.human?).to eq(false)
     expect(response.location?).to eq(false)
     expect(response.number?).to eq(false)
+    expect(response.vpositive?).to eq(false)
     expect(response.positive?).to eq(false)
     expect(response.neutral?).to eq(true)
     expect(response.negative?).to eq(false)
+    expect(response.vnegative?).to eq(false)
   end
 end

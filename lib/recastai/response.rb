@@ -182,6 +182,16 @@ module RecastAI
     end
 
     ##
+    # Return whether or not the sentiment is very positive
+    #
+    # + *Args* :
+    # + *Returns* :
+    #   - True or False
+    def vpositive?
+      @sentiment == Utils::SENTIMENT_VPOSITIVE
+    end
+
+    ##
     # Return whether or not the sentiment is positive
     #
     # + *Args* :
@@ -209,6 +219,16 @@ module RecastAI
     #   - True or False
     def negative?
       @sentiment == Utils::SENTIMENT_NEGATIVE
+    end
+
+    ##
+    # Return whether or not the sentiment is very negative
+    #
+    # + *Args* :
+    # + *Returns* :
+    #   - True or False
+    def vnegative?
+      @sentiment == Utils::SENTIMENT_VNEGATIVE
     end
   end
 end

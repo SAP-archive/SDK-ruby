@@ -27,8 +27,10 @@ module RecastAI
     TYPE_NUMBER = 'num:'.freeze
 
     # Sentiment constants
+    SENTIMENT_VPOSITIVE = 'vpositive'.freeze
     SENTIMENT_POSITIVE = 'positive'.freeze
     SENTIMENT_NEUTRAL = 'neutral'.freeze
     SENTIMENT_NEGATIVE = 'negative'.freeze
+    SENTIMENT_VNEGATIVE = 'vnegative'.freeze
   end
 end
