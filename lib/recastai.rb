@@ -12,5 +12,3 @@ require 'recastai/client'
 require 'recastai/response'
 require 'recastai/intent'
 require 'recastai/entity'
-
-require 'awesome_print'
