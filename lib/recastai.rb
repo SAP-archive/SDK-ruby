@@ -10,5 +10,3 @@ require 'recastai/client'
 require 'recastai/response'
 require 'recastai/sentence'
 require 'recastai/entity'
-
-require 'awesome_print'
