@@ -24,7 +24,6 @@ module RecastAI
       @intents   = response['intents'].map{ |i| Intent.new(i) }
       @act       = response['act']
       @type      = response['type']
-      @negated   = response['negated']
       @sentiment = response['sentiment']
       @entities  = response['entities'].flat_map{ |n, e| e.map{ |ee| Entity.new(n, ee) } }
       @language  = response['language']
@@ -169,16 +168,6 @@ module RecastAI
     #   - True or False
     def number?
       !@type.index(Utils::TYPE_NUMBER).nil?
-    end
-
-    ##
-    # Returns whether or not the source is negated
-    #
-    # * *Args* :
-    # * *Returns* :
-    #   - True or False
-    def negated?
-      !@negated.zero?
     end
 
     ##
