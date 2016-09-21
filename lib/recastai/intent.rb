@@ -2,11 +2,11 @@
 
 module RecastAI
   class Intent
-    attr_reader :name
+    attr_reader :slug
     attr_reader :confidence
 
     def initialize(intent)
-      @name       = intent['name']
+      @slug       = intent['slug']
       @confidence = intent['confidence']
     end
   end
