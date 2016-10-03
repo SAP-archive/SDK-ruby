@@ -61,7 +61,7 @@ client = RecastAI::Client.new(YOUR_TOKEN, YOUR_LANGUAGE)
 
 __Your tokens__
 
-[token]: https://github.com/RecastAI/SDK-NodeJs/blob/master/misc/recast-ai-tokens.png "Tokens"
+[token]: https://github.com/RecastAI/SDK-Ruby/blob/master/misc/recast-ai-tokens.png "Tokens"
 
 ![alt text][token]
 
@@ -84,7 +84,7 @@ If you pass a token or a language in the options parameter, it will override you
 ```ruby
 response = client.text_request(YOUR_TEXT)
 
-if response.intent == YOUR_EXPECTED_INTENT
+if response.intent.slug == YOUR_EXPECTED_INTENT
   # Do your code...
 end
 ```
