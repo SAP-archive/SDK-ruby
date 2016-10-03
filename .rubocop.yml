@@ -1,7 +1,7 @@
 Metrics/LineLength:
-  Max: 999
+  Max: 9999
 Metrics/MethodLength:
-  Max: 999
+  Max: 9999
 Style/Documentation:
   Enabled: false
 Style/SpaceBeforeBlockBraces:

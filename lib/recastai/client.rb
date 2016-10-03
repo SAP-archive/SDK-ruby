@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module RecastAI
   class Client
     attr_accessor :token
@@ -25,10 +27,11 @@ module RecastAI
 
       body = { 'text' => text }
       body['language'] = language unless language.nil?
-      response = HTTParty.post(Utils::API_ENDPOINT,
-                               body: body,
-                               headers: { 'Authorization' => "Token #{token}" }
-                              )
+      response = HTTParty.post(
+        Utils::API_ENDPOINT,
+        body: body,
+        headers: { 'Authorization' => "Token #{token}" }
+      )
       raise(RecastError.new(response.message)) if response.code != 200
 
       Response.new(response.body)
@@ -52,10 +55,11 @@ module RecastAI
 
       body = { 'voice' => File.new(file) }
       body['language'] = language unless language.nil?
-      response = HTTMultiParty.post(Utils::API_ENDPOINT,
-                                    body: body,
-                                    headers: { 'Authorization' => "Token #{token}" }
-                                   )
+      response = HTTMultiParty.post(
+        Utils::API_ENDPOINT,
+        body: body,
+        headers: { 'Authorization' => "Token #{token}" }
+      )
       raise(RecastError.new(response.message)) if response.code != 200
 
       Response.new(response.body)

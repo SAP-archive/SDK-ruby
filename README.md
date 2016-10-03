@@ -31,12 +31,8 @@ require 'recastai'
 client = RecastAI::Client.new(YOUR_TOKEN, YOUR_LANGUAGE)
 
 # text request
-responseFromText = client.text_request(YOUR_TEXT)
-
-# file request
-responseFromFile = client.file_request(File.new(File.join(File.dirname(__FILE__), YOUR_FILE)))
-
-if responseFromText.intent == YOUR_EXPECTED_INTENT
+response = client.text_request(YOUR_TEXT)
+if response.intent.slug == YOUR_EXPECTED_INTENT
   # Do your code...
 end
 ```
@@ -49,11 +45,11 @@ This gem contains 5 main classes, as follows:
 
 * RecastAI::Client is the client allowing you to make requests.
 * RecastAI::Response contains the response from [Recast.AI](https://recast.ai).
-* RecastAI::Sentence represents a sentence of the response.
+* RecastAI::Intent represents an intent of the response.
 * RecastAI::Entity represents an entity found by Recast.AI in your user's input.
 * RecastAI::RecastError is the error thrown by the gem.
 
-Don't hesitate to dive into the code, it's commented ;)
+Don't hesitate to dive into the code, it's commented :)
 
 ## RecastAI::Client
 
@@ -112,7 +108,7 @@ __file format: .wav__
 ```ruby
 response = client.file_request(File.new(File.join(File.dirname(__FILE__),YOUR_FILE)))
 
-if response.intent == YOUR_EXPECTED_INTENT
+if response.intent.slug == YOUR_EXPECTED_INTENT
   # Do your code...
 end
 ```
@@ -140,21 +136,9 @@ The Response is generated after a call to either file_request or text_request.
 ```ruby
 response = client.text_request(YOUR_TEXT)
 
-if response.intent == YOUR_EXPECTED_INTENT
+if response.intent.slug == YOUR_EXPECTED_INTENT
   # Do your code...
 end
-```
-
-### Get the first sentence
-
-| Method          | Params | Return             |
-| --------------- |:------:| :------------------|
-| sentence()      |        | the first sentence |
-
-```ruby
-response = client.text_request(YOUR_TEXT)
-
-first_sentence = response.sentence
 ```
 
 ### Get the first entity matching name
@@ -181,6 +165,38 @@ response = client.text_request(YOUR_TEXT)
 locations = response.all('location')
 ```
 
+
+
+### Act helpers
+
+| Method        | Params | Return                                                 |
+| ------------- |:------:| :----------------------------------------------------- |
+| assert?       |        | Bool: whether or not the sentence is an assertion      |
+| command?      |        | Bool: whether or not the sentence is a command         |
+| wh\_query?    |        | Bool: whether or not the sentence is a question        |
+| yn\_query?    |        | Bool: whether or not the sentence is a query           |
+
+### Type helpers
+
+| Method        | Params | Return                                                 |
+| ------------- |:------:| :----------------------------------------------------- |
+| abbreviation? |        | Bool: is the answer of the sentence an abbreviation?   |
+| entity?       |        | Bool: is the answer of the sentence an entity?         |
+| description?  |        | Bool: is the answer of the sentence an description?    |
+| human?        |        | Bool: is the answer of the sentence an human?          |
+| location?     |        | Bool: is the answer of the sentence a location?        |
+| number?       |        | Bool: is the answer of the sentence an number?         |
+
+### Sentiment helpers
+
+| Method        | Params | Return                                                 |
+| ------------- |:------:| :----------------------------------------------------- |
+| vpositive?    |        | Bool: is the sentence very positive?                   |
+| positive?     |        | Bool: is the sentence positive?                        |
+| neutral?      |        | Bool: is the sentence neutral?                         |
+| negative?     |        | Bool: is the sentence negative?                        |
+| vnegative?    |        | Bool: is the sentence very negative?                   |
+
 ### Getters
 
 Each of the following methods corresponds to a Response attribute
@@ -188,68 +204,36 @@ Each of the following methods corresponds to a Response attribute
 | Method        | Params | Return                                              |
 | ------------- |:------:| :---------------------------------------------------|
 | raw()         |        | String: the raw unparsed json response              |
+| uuid()        |        | String: the universal unique id of the request      |
 | source()      |        | String: the user input                              |
-| intents()     |        | Array[object]: all the matched intents              |
-| sentences()   |        | Array[Sentence]: all the detected sentences         |
+| intents()     |        | Array[Intent]: all the matched intents              |
+| act()         |        | String: the act of the sentence                     |
+| type()        |        | String: the type of the sentence                    |
+| sentiment()   |        | String: the sentiment of the sentence               |
+| entities()    |        | Array[Entity]: all the detected entities            |
+| language()    |        | String: the language of the sentence                |
 | version()     |        | String: the version of the json                     |
 | timestamp()   |        | String: the timestamp at the end of the processing  |
 | status()      |        | String: the status of the response                  |
-| type()        |        | String: the type of the response                    |
 
+## RecastAI::Intent
 
-## RecastAI::Sentence
+Each of the following methods corresponds to an Intent attribute
 
-The Sentence is generated by the Recast.AI Response initializer
-
-### Get the first entity matching name
-
-| Method     | Params        | Return                   |
-| ---------- |:-------------:| :------------------------|
-| get(name)  | name: String  | the first Entity matched |
-
-```ruby
-response = client.text_request(YOUR_TEXT)
-
-sentence = response.sentence
-
-location = sentence.get('location')
-```
-
-### Get all entities matching name
-
-| Method     | Params        | Return                   |
-| ---------- |:-------------:| :------------------------|
-| all(name)  | name: String  | all the Entities matched |
-
-```ruby
-response = client.text_request(YOUR_TEXT)
-
-sentence = response.sentence
-
-locations = sentence.all('location')
-```
-
-### Getters
-
-Each of the following methods corresponds to a Response attribute
-
-| Method      | Params | Return                                               |
-| ----------- |:------:| :----------------------------------------------------|
-| source      |        | String: the source of the sentence                   |
-| type        |        | String: the type of the sentence                     |
-| action      |        | String: The action of the sentence                   |
-| agent       |        | String: the agent of the sentence                    |
-| polarity    |        | String: the polarity of the sentence                 |
-| entities    |        | Array[Entity]: the entities detected in the sentence |
+| Attributes  | Description                                                   |
+| ----------- |:--------------------------------------------------------------|
+| slug        | String: the slug of the intent                                |
+| confidence  | Float: the unparsed json value of the intent                  |
 
 ## RecastAI::Entity
 
-Each of the following methods corresponds to a Response attribute
+Each of the following methods corresponds to an Entity attribute
 
 | Attributes  | Description                                                   |
 | ----------- |:--------------------------------------------------------------|
 | name        | String: the name of the entity                                |
-| raw         | String: the unparsed json value of the entity                 |
+| raw         | String: the raw value extracted from the sentence             |
+| confidence  | Float: the detection score between 0 and 1 excluded           |
 
 In addition to those methods, more attributes are generated depending of the nature of the entity.
 The full list can be found there: [man.recast.ai](https://man.recast.ai/#list-of-entities)
@@ -288,7 +272,7 @@ Copyright (c) [2016] [Recast.AI](https://recast.ai)
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+to tsuse, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
 

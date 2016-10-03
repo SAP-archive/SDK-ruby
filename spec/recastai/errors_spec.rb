@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 describe RecastAI::RecastError do
   it 'should be instanciable' do
     expect{ RecastAI::RecastError.new('error') }.not_to raise_error
