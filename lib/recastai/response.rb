@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+##
+# This class builds a response from *_request
 module RecastAI
   class Response
     attr_reader :raw

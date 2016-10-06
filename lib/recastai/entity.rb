@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+##
+# This class build an Entity used in RecastAI::Response and RecastAI::Conversation
 module RecastAI
   class Entity
     attr_reader :name

@@ -9,8 +9,8 @@ module RecastAI
     VERSION = "#{MAJOR}.#{MINOR}.#{MICRO}".freeze
 
     # Endpoints
-    API_ENDPOINT = 'https://api.recast.ai/v2/request'.freeze
-    WS_ENDPOINT = 'wss://api.recast.ai/v2/request'.freeze
+    REQUEST_ENDPOINT = 'https://api.recast.ai/v2/request'.freeze
+    CONVERSE_ENDPOINT = 'https://api.recast.ai/v2/converse'.freeze
 
     # Act constants
     ACT_ASSERT = 'assert'.freeze

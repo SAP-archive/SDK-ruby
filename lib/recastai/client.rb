@@ -1,5 +1,9 @@
 # encoding: utf-8
 
+##
+# This class is the main entrypoint to Recast.AI
+# When using *_converse, a RecastAI::Conversation object is returned
+# When using *_request, a RecastAI::Response object is returned
 module RecastAI
   class Client
     attr_accessor :token
@@ -7,6 +11,37 @@ module RecastAI
     def initialize(token = nil, language = nil)
       @token = token
       @language = language
+    end
+
+    ##
+    # Perform a text converse to Recast.AI
+    #
+    # * *Args* :
+    #   - +text+ - String, the text to process
+    #   - +options+ - Hash, request's options
+    # * *Returns* :
+    #   - An instance of Conversation
+    # * *Throws* :
+    #   - RecastError
+    def text_converse(text, options = {})
+      token = options[:token] || @token
+      raise(RecastError.new('Token is missing')) if token.nil?
+
+      language = options[:language] || @language
+
+      body = { text: text }
+      body[:language] = language unless language.nil?
+      body[:conversation_token] = options[:conversation_token] unless options[:conversation_token].nil?
+      body[:memory] = options[:memory] unless options[:memory].nil?
+
+      response = HTTParty.post(
+        Utils::CONVERSE_ENDPOINT,
+        body: body,
+        headers: { Authorization: "Token #{token}" }
+      )
+      raise(RecastError.new(response.message)) if response.code != 200
+
+      Conversation.new(response.body)
     end
 
     ##
@@ -25,12 +60,12 @@ module RecastAI
 
       language = options[:language] || @language
 
-      body = { 'text' => text }
-      body['language'] = language unless language.nil?
+      body = { text: text }
+      body[:language] = language unless language.nil?
       response = HTTParty.post(
-        Utils::API_ENDPOINT,
+        Utils::REQUEST_ENDPOINT,
         body: body,
-        headers: { 'Authorization' => "Token #{token}" }
+        headers: { Authorization: "Token #{token}" }
       )
       raise(RecastError.new(response.message)) if response.code != 200
 
@@ -53,12 +88,12 @@ module RecastAI
 
       language = options[:language] || @language
 
-      body = { 'voice' => File.new(file) }
-      body['language'] = language unless language.nil?
+      body = { voice: File.new(file) }
+      body[:language] = language unless language.nil?
       response = HTTMultiParty.post(
-        Utils::API_ENDPOINT,
+        Utils::REQUEST_ENDPOINT,
         body: body,
-        headers: { 'Authorization' => "Token #{token}" }
+        headers: { Authorization: "Token #{token}" }
       )
       raise(RecastError.new(response.message)) if response.code != 200
 
