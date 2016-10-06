@@ -13,5 +13,9 @@ module RecastAI
       @done  = action['done']
       @reply = action['reply']
     end
+
+    def done?
+      @done
+    end
   end
 end

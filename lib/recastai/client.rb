@@ -7,6 +7,7 @@
 module RecastAI
   class Client
     attr_accessor :token
+    attr_accessor :language
 
     def initialize(token = nil, language = nil)
       @token = token

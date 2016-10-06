@@ -1,258 +1,38 @@
-# Recast.AI - Ruby SDK
+# Recast.AI - SDK Ruby
 
-[![Version](https://badge.fury.io/rb/RecastAI.svg)](https://badge.fury.io/rb/RecastAI)
+[logo]: https://github.com/RecastAI/SDK-Ruby/blob/master/misc/logo-inline.png "Recast.AI"
 
-![logo](https://raw.githubusercontent.com/RecastAI/SDK-ruby/master/misc/logo-inline.png "Recast.AI")
+![alt text][logo]
 
-Recast.AI official SDK in Ruby.
-
+Recast.AI official SDK in Ruby
 
 ## Synospis
 
-This gem is a pure Ruby interface to the [Recast.AI](https://recast.ai) API. It allows you to make requests to your bots.
-
-
-## Requirements
-
-* Ruby 2.2+
-
+This module is a wrapper around the [Recast.AI](https://recast.ai) API, and allows you to:
+* [build a bot](https://github.com/RecastAI/SDK-Ruby/wiki/Build-your-bot)
+* [analyze your text](https://github.com/RecastAI/SDK-Ruby/wiki/Analyse-text)
 
 ## Installation
 
-```bash
+``bash
 gem install 'RecastAI'
-```
-
-## Usage
-
-```ruby
-require 'recastai'
-
-client = RecastAI::Client.new(YOUR_TOKEN, YOUR_LANGUAGE)
-
-# text request
-response = client.text_request(YOUR_TEXT)
-if response.intent.slug == YOUR_EXPECTED_INTENT
-  # Do your code...
-end
-```
-
+``
 ## Specs
 
 ### Classes
 
-This gem contains 5 main classes, as follows:
-
-* RecastAI::Client is the client allowing you to make requests.
-* RecastAI::Response contains the response from [Recast.AI](https://recast.ai).
-* RecastAI::Intent represents an intent of the response.
-* RecastAI::Entity represents an entity found by Recast.AI in your user's input.
-* RecastAI::RecastError is the error thrown by the gem.
-
-Don't hesitate to dive into the code, it's commented :)
-
-## RecastAI::Client
-
-The Client can be instanciated with a token and a language (both optional)
-
-```ruby
-client = RecastAI::Client.new(YOUR_TOKEN, YOUR_LANGUAGE)
-```
-
-__Your tokens__
-
-[token]: https://github.com/RecastAI/SDK-Ruby/blob/master/misc/recast-ai-tokens.png "Tokens"
-
-![alt text][token]
-
-*Copy paste your request access token from your bot's settings*
-
-__Your language__
-
-```ruby
-client = RecastAI::Client.new(YOUR_TOKEN, 'en')
-```
-
-*The language is a lowercase 639-1 isocode.*
-
-## Text Request
-
-text_request(text, options = {})
-
-If you pass a token or a language in the options parameter, it will override your default client language or token
-
-```ruby
-response = client.text_request(YOUR_TEXT)
-
-if response.intent.slug == YOUR_EXPECTED_INTENT
-  # Do your code...
-end
-```
-
-```ruby
-# With optional parameters
-response = client.text_request(YOUR_TEXT, { token: YOUR_TOKEN, language: YOUR_LANGUAGE })
-```
-
-__If a language is provided:__ the language you've given is used for processing if your bot has expressions for it, else your bot's primary language is used.
-
-__If no language is provided:__ the language of the text is detected and is used for processing if your bot has expressions for it, else your bot's primary language is used for processing.
-
-## File request
-
-file_request(file, options = {})
-
-If you pass a token or a language in the option parameter, it will override your default client language or token.
-
-__file format: .wav__
-```ruby
-response = client.file_request(File.new(File.join(File.dirname(__FILE__),YOUR_FILE)))
-
-if response.intent.slug == YOUR_EXPECTED_INTENT
-  # Do your code...
-end
-```
-
-```ruby
-# with optional parameters
-response = client.file_request(File.new(File.join(File.dirname(__FILE__),YOUR_FILE)), { token: YOUR_TOKEN, language: YOUR_LANGUAGE })
-```
-
-__If a language is provided:__ the language you've given is used for processing if your bot has expressions for it, else your bot's primary language is used
-
-__If no language is provided:__ your bot's primary language is used for processing as we do not provide language detection for speech.
-
-
-## RecastAI::Response
-
-The Response is generated after a call to either file_request or text_request.
-
-### Get the first detected intent
-
-| Method        | Params | Return                    |
-| ------------- |:------:| :-------------------------|
-| intent()      |        | the first detected intent |
-
-```ruby
-response = client.text_request(YOUR_TEXT)
-
-if response.intent.slug == YOUR_EXPECTED_INTENT
-  # Do your code...
-end
-```
-
-### Get the first entity matching name
-
-| Method     | Params        | Return                   |
-| ---------- |:-------------:| :------------------------|
-| get(name)  | name: String  | the first Entity matched |
-
-```ruby
-response = client.text_request(YOUR_TEXT)
-
-location = response.get('location')
-```
-
-### Get all entities matching name
-
-| Method     | Params        | Return                   |
-| ---------- |:-------------:| :------------------------|
-| all(name)  | name: String  | all the Entities matched |
-
-```ruby
-response = client.text_request(YOUR_TEXT)
-
-locations = response.all('location')
-```
-
-
-
-### Act helpers
-
-| Method        | Params | Return                                                 |
-| ------------- |:------:| :----------------------------------------------------- |
-| assert?       |        | Bool: whether or not the sentence is an assertion      |
-| command?      |        | Bool: whether or not the sentence is a command         |
-| wh\_query?    |        | Bool: whether or not the sentence is a question        |
-| yn\_query?    |        | Bool: whether or not the sentence is a query           |
-
-### Type helpers
-
-| Method        | Params | Return                                                 |
-| ------------- |:------:| :----------------------------------------------------- |
-| abbreviation? |        | Bool: is the answer of the sentence an abbreviation?   |
-| entity?       |        | Bool: is the answer of the sentence an entity?         |
-| description?  |        | Bool: is the answer of the sentence an description?    |
-| human?        |        | Bool: is the answer of the sentence an human?          |
-| location?     |        | Bool: is the answer of the sentence a location?        |
-| number?       |        | Bool: is the answer of the sentence an number?         |
-
-### Sentiment helpers
-
-| Method        | Params | Return                                                 |
-| ------------- |:------:| :----------------------------------------------------- |
-| vpositive?    |        | Bool: is the sentence very positive?                   |
-| positive?     |        | Bool: is the sentence positive?                        |
-| neutral?      |        | Bool: is the sentence neutral?                         |
-| negative?     |        | Bool: is the sentence negative?                        |
-| vnegative?    |        | Bool: is the sentence very negative?                   |
-
-### Getters
-
-Each of the following methods corresponds to a Response attribute
-
-| Method        | Params | Return                                              |
-| ------------- |:------:| :---------------------------------------------------|
-| raw()         |        | String: the raw unparsed json response              |
-| uuid()        |        | String: the universal unique id of the request      |
-| source()      |        | String: the user input                              |
-| intents()     |        | Array[Intent]: all the matched intents              |
-| act()         |        | String: the act of the sentence                     |
-| type()        |        | String: the type of the sentence                    |
-| sentiment()   |        | String: the sentiment of the sentence               |
-| entities()    |        | Array[Entity]: all the detected entities            |
-| language()    |        | String: the language of the sentence                |
-| version()     |        | String: the version of the json                     |
-| timestamp()   |        | String: the timestamp at the end of the processing  |
-| status()      |        | String: the status of the response                  |
-
-## RecastAI::Intent
-
-Each of the following methods corresponds to an Intent attribute
-
-| Attributes  | Description                                                   |
-| ----------- |:--------------------------------------------------------------|
-| slug        | String: the slug of the intent                                |
-| confidence  | Float: the unparsed json value of the intent                  |
-
-## RecastAI::Entity
-
-Each of the following methods corresponds to an Entity attribute
-
-| Attributes  | Description                                                   |
-| ----------- |:--------------------------------------------------------------|
-| name        | String: the name of the entity                                |
-| raw         | String: the raw value extracted from the sentence             |
-| confidence  | Float: the detection score between 0 and 1 excluded           |
-
-In addition to those methods, more attributes are generated depending of the nature of the entity.
-The full list can be found there: [man.recast.ai](https://man.recast.ai/#list-of-entities)
-
-```ruby
-response = client.text_request(YOUR_TEXT)
-
-location = response.get('location')
-
-puts location.raw
-puts location.name
-```
-
-## RecastAI::RecastError
-
-The Recast.AI Error is thrown when receiving an non-200 response from Recast.AI.
-
-As it inherits from ::Exception, it implements the default exception methods.
-
+This module contains 7 classes, as follows:
+
+* [Client](https://github.com/RecastAI/SDK-Ruby/wiki/Class-Client) is the client allowing you to make requests.
+* [Response](https://github.com/RecastAI/SDK-Ruby/wiki/Class-Response) wraps the response from a call to [Recast.AI](https://recast.ai) API with the text_request or file_request Client methods. 
+* [Conversation](https://github.com/RecastAI/SDK-Ruby/wiki/Class-Conversation) wraps the response from a call to [Recast.AI](https://recast.ai) API with the text_converse Client method.
+* [Action](https://github.com/RecastAI/SDK-Ruby/wiki/Class-Action) represents an action to do when using the text_converse method.
+* [Intent](https://github.com/RecastAI/SDK-Ruby/wiki/Class-Intent) represents an intent matched when using either the text_request, file_request or text_converse methods.
+* [Entity](https://github.com/RecastAI/SDK-Ruby/wiki/Class-Entity) represents an entity extracted from an input.
+* [RecastError](https://github.com/RecastAI/SDK-Ruby/wiki/Class-RecastError) is the error returned by the module.
+
+Don't hesitate to dive into the code, it's commented ;)
+`
 ## More
 
 You can view the whole API reference at [man.recast.ai](https://man.recast.ai).

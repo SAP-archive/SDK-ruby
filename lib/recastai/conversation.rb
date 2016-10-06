@@ -51,6 +51,16 @@ module RecastAI
     end
 
     ##
+    # Returns the first next action provided there is one
+    #
+    # * *Args* :
+    # * *Returns* :
+    #   - An instance of Action or nil
+    def next_action
+      @next_actions.any? ? @next_actions.first : nil
+    end
+
+    ##
     # Returns the replies joined with sep
     #
     # * *Args* :
