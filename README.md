@@ -14,9 +14,14 @@ This module is a wrapper around the [Recast.AI](https://recast.ai) API, and allo
 
 ## Installation
 
-``bash
+```bash
 gem install 'RecastAI'
-``
+```
+
+## Documentation
+
+You can find the full documentation [here](https://github.com/RecastAI/SDK-Ruby/wiki).
+
 ## Specs
 
 ### Classes
