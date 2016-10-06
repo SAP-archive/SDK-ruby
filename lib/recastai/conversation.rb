@@ -68,7 +68,7 @@ module RecastAI
     # * *Returns* :
     #   - A String or nil
     def joined_replies(sep=' ')
-      @replies.any? ? @replies.first : nil
+      @replies.join(sep)
     end
 
     ##
@@ -98,7 +98,7 @@ module RecastAI
       # * *Throws* :
       #   - RecastError
       def set_memory(token, conversation_token, memory)
-        body = { conversation_token: conversation_token, memory: JSON.generate(memory) }
+        body = { conversation_token: conversation_token, memory: memory }
         response = HTTParty.put(
           Utils::CONVERSE_ENDPOINT,
           body: body,
@@ -127,7 +127,7 @@ module RecastAI
         memory[name] = nil unless name.nil?
 
         body = { conversation_token: conversation_token }
-        body[:memory] = JSON.generate(memory) unless memory.empty?
+        body[:memory] = memory unless memory.empty?
         response = HTTParty.put(
           Utils::CONVERSE_ENDPOINT,
           body: body,
