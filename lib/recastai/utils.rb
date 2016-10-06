@@ -4,7 +4,7 @@ module RecastAI
   class Utils
     # Versioning
     MAJOR = '2'.freeze
-    MINOR = '0'.freeze
+    MINOR = '1'.freeze
     MICRO = '0'.freeze
     VERSION = "#{MAJOR}.#{MINOR}.#{MICRO}".freeze
 

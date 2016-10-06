@@ -76,13 +76,27 @@ module RecastAI
     # If no name is provided, returns the full memory
     #
     # * *Args* :
-    #   - +name+ - String, the memory's field name
+    #   - +key+ - String, the memory's field name
     # * *Returns* :
     #   - An instance of Entity or a Memory
-    def get_memory(name=nil)
-      return @memory if name.nil?
+    def get_memory(key=nil)
+      return @memory if key.nil?
 
-      @memory[name]
+      @memory.each do |entity|
+        return entity if entity.name.casecmp(key.to_s) == 0
+      end
+
+      nil
+    end
+
+    ##
+    # Returns the first intent provided there is one
+    #
+    # * *Args* :
+    # * *Returns* :
+    #   - A String or nil
+    def intent
+      @intents.any? ? @intents.first : nil
     end
 
     class << self
