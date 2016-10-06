@@ -123,11 +123,10 @@ module RecastAI
       # * *Throws* :
       #   - RecastError
       def reset_memory(token, conversation_token, name=nil)
-        memory = {}
-        memory[name] = nil unless name.nil?
-
         body = { conversation_token: conversation_token }
-        body[:memory] = memory unless memory.empty?
+        unless name.nil?
+          body[:memory] = { name => nil }
+        end
         response = HTTParty.put(
           Utils::CONVERSE_ENDPOINT,
           body: body,
