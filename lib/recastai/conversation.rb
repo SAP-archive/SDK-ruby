@@ -28,7 +28,7 @@ module RecastAI
       @uuid               = response['uuid']
       @source             = response['source']
       @replies            = response['replies']
-      @action             = Action.new(response['action'])
+      @action             = response['action'] ? Action.new(response['action']) : nil
       @next_actions       = response['next_actions'].map{ |i| Action.new(i) }
       @memory             = response['memory'].select{ |n, e| !e.nil? }.map{ |n, e| Entity.new(n, e) }
       @entities           = response['entities'].flat_map{ |n, e| e.map{ |ee| Entity.new(n, ee) } }
