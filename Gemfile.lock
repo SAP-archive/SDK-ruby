@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    RecastAI (2.1.1)
+    RecastAI (3.0.0)
       httmultiparty (~> 0.3)
       httparty (~> 0.13)
 
@@ -60,4 +60,4 @@ DEPENDENCIES
   webmock (~> 1.24)
 
 BUNDLED WITH
-   1.14.3
+   1.14.5

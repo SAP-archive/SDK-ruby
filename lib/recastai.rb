@@ -16,10 +16,12 @@ module RecastAI
   class Client
     attr_reader :token, :language, :proxy
 
-    def initialize(token=nil, language=nil, proxy=nil)
-      [RecastAI::Request].each do |api|
-        name = api.name.split('::').last.downcase # FIXME, weak demodulize
-        self.class.send(:define_method, name.to_sym, lambda { api.new(token, language, proxy) })
+    def initialize(token = nil, language = nil, proxy = nil)
+      [RecastAI::Request, RecastAI::Connect].each do |api|
+        i = api.name.rindex('::')
+        name = i.nil? ? api.name : api.name[(i + 2)..-1]
+
+        self.class.send(:define_method, name.downcase.to_sym, ->{ api.new(token, language, proxy) })
       end
     end
   end

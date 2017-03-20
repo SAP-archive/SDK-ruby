@@ -59,7 +59,7 @@ module RecastAI
     #   - An instance of Entity or nil
     def get(name)
       @entities.each do |entity|
-        return entity if entity.name.casecmp(name.to_s) == 0
+        return entity if entity.name.casecmp(name.to_s).zero?
       end
 
       nil
@@ -74,7 +74,7 @@ module RecastAI
     #   - An array of instances of Entity or an empty array
     def all(name)
       @entities.select do |entity|
-        entity.name.casecmp(name.to_s) == 0
+        entity.name.casecmp(name.to_s).zero?
       end
     end
 

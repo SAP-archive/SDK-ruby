@@ -5,7 +5,7 @@ require_relative 'models/response'
 
 module RecastAI
   module Analyze
-    def analyze_text(text, token=nil, language=nil)
+    def analyze_text(text, token = nil, language = nil, proxy = nil)
       token ||= @token
       raise(RecastError.new('Token is missing')) if token.nil?
 
@@ -23,7 +23,7 @@ module RecastAI
       Response.new(response.body)
     end
 
-    def analyze_file(file, options = {})
+    def analyze_file(file, token = nil, language = nil, proxy = nil)
       token ||= @token
       raise(RecastError.new('Token is missing')) if token.nil?
 

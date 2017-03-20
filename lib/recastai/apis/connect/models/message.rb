@@ -23,16 +23,17 @@ module RecastAI
     end
 
     def add_replies(replies)
-      replies = [replies] unless replies.is_a?(Array)
+      replies = [replies] if replies.is_a?(String)
+
       @replies.concat(replies)
     end
 
-    def reply(replies=[])
-      replies = [replies] unless replies.is_a?(Array)
+    def reply(replies = [])
+      replies = [replies] if replies.is_a?(String)
 
       response = HTTParty.post(
         Utils::CONVERSATION_ENDPOINT + conversation_id + '/messages',
-        json: {'message': @replies + replies},
+        json: { message: @replies + replies },
         headers: { 'Authorization' => "Token #{token}" }
       )
 

@@ -9,7 +9,7 @@ require_relative 'intent'
 module RecastAI
   class Conversation
     attr_reader :raw, :uuid, :source, :replies, :action, :next_actions, :memory, :entities, :intents,
-        :conversation_token, :language, :version, :timestamp, :status
+                :conversation_token, :language, :version, :timestamp, :status
 
     def initialize(response)
       @raw = response
@@ -22,8 +22,8 @@ module RecastAI
       @replies            = response['replies']
       @action             = response['action'] ? Action.new(response['action']) : nil
       @next_actions       = response['next_actions'].map{ |i| Action.new(i) }
-      @memory             = response['memory'].select{ |n, e| !e.nil? }.map{ |n, e| Entity.new(n, e) }
-      @entities           = response['entities'].flat_map{ |n, e| e.map{ |ee| Entity.new(n, ee) } }
+      @memory             = response['memory'].select{ |_, e| !e.nil? }.map{ |n, e| Entity.new(n, e) }
+      @entities           = response['entities'].flat_map{ |_, e| e.map{ |ee| Entity.new(n, ee) } }
       @intents            = response['intents'].map{ |i| Intent.new(i) }
       @conversation_token = response['conversation_token']
       @language           = response['language']
@@ -59,7 +59,7 @@ module RecastAI
     #   - +sep+ - String, the separator (default: ' ')
     # * *Returns* :
     #   - A String or nil
-    def joined_replies(sep=' ')
+    def joined_replies(sep = ' ')
       @replies.join(sep)
     end
 
@@ -71,11 +71,11 @@ module RecastAI
     #   - +key+ - String, the memory's field name
     # * *Returns* :
     #   - An instance of Entity or a Memory
-    def get_memory(key=nil)
+    def get_memory(key = nil)
       return @memory if key.nil?
 
       @memory.each do |entity|
-        return entity if entity.name.casecmp(key.to_s) == 0
+        return entity if entity.name.casecmp(key.to_s).zero?
       end
 
       nil
@@ -114,7 +114,7 @@ module RecastAI
 
         response = JSON.parse(response.body)
         response = response['results']
-        response['memory'].select{ |n, e| !e.nil? }.map{ |n, e| Entity.new(n, e) }
+        response['memory'].select{ |_, e| !e.nil? }.map{ |n, e| Entity.new(n, e) }
       end
 
       ##
@@ -128,11 +128,10 @@ module RecastAI
       #   - A fully or partially reset Memory
       # * *Throws* :
       #   - RecastError
-      def reset_memory(token, conversation_token, name=nil)
+      def reset_memory(token, conversation_token, name = nil)
         body = { conversation_token: conversation_token }
-        unless name.nil?
-          body[:memory] = { name => nil }
-        end
+        body[:memory] = { name => nil } unless name.nil?
+
         response = HTTParty.put(
           Utils::CONVERSE_ENDPOINT,
           body: body,
@@ -142,7 +141,7 @@ module RecastAI
 
         response = JSON.parse(response.body)
         response = response['results']
-        response['memory'].select{ |n, e| !e.nil? }.map{ |n, e| Entity.new(n, e) }
+        response['memory'].select{ |_, e| !e.nil? }.map{ |n, e| Entity.new(n, e) }
       end
 
       ##
@@ -167,7 +166,7 @@ module RecastAI
 
         response = JSON.parse(response.body)
         response = response['results']
-        response['memory'].select{ |n, e| !e.nil? }.map{ |n, e| Entity.new(n, e) }
+        response['memory'].select{ |_, e| !e.nil? }.map{ |n, e| Entity.new(n, e) }
       end
     end
   end
