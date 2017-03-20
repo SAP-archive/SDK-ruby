@@ -1,5 +1,9 @@
 # encoding: utf-8
 
+require_relative 'intent'
+require_relative 'entity'
+require_relative '../utils'
+
 ##
 # This class builds a response from *_request
 module RecastAI

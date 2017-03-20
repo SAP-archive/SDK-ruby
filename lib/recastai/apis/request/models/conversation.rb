@@ -1,23 +1,15 @@
 # encoding: utf-8
 
+require_relative 'action'
+require_relative 'entity'
+require_relative 'intent'
+
 ##
 # This class builds a conversation from *_converse
 module RecastAI
   class Conversation
-    attr_reader :raw
-    attr_reader :uuid
-    attr_reader :source
-    attr_reader :replies
-    attr_reader :action
-    attr_reader :next_actions
-    attr_reader :memory
-    attr_reader :entities
-    attr_reader :intents
-    attr_reader :conversation_token
-    attr_reader :language
-    attr_reader :version
-    attr_reader :timestamp
-    attr_reader :status
+    attr_reader :raw, :uuid, :source, :replies, :action, :next_actions, :memory, :entities, :intents,
+        :conversation_token, :language, :version, :timestamp, :status
 
     def initialize(response)
       @raw = response
