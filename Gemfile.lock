@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    RecastAI (2.0.0)
+    RecastAI (2.1.1)
       httmultiparty (~> 0.3)
       httparty (~> 0.13)
 
@@ -19,12 +19,11 @@ GEM
       httparty (>= 0.7.3)
       mimemagic
       multipart-post
-    httparty (0.13.7)
-      json (~> 1.8)
+    httparty (0.14.0)
       multi_xml (>= 0.5.2)
     json (1.8.3)
-    mimemagic (0.3.1)
-    multi_xml (0.5.5)
+    mimemagic (0.3.2)
+    multi_xml (0.6.0)
     multipart-post (2.0.0)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
@@ -61,4 +60,4 @@ DEPENDENCIES
   webmock (~> 1.24)
 
 BUNDLED WITH
-   1.12.5
+   1.14.3

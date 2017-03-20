@@ -38,7 +38,7 @@ module RecastAI
       response = HTTParty.post(
         Utils::CONVERSE_ENDPOINT,
         body: body,
-        headers: { Authorization: "Token #{token}" }
+        headers: { 'Authorization' => "Token #{token}" }
       )
       raise(RecastError.new(response.message)) if response.code != 200
 
@@ -66,7 +66,7 @@ module RecastAI
       response = HTTParty.post(
         Utils::REQUEST_ENDPOINT,
         body: body,
-        headers: { Authorization: "Token #{token}" }
+        headers: { 'Authorization' => "Token #{token}" }
       )
       raise(RecastError.new(response.message)) if response.code != 200
 
@@ -94,7 +94,7 @@ module RecastAI
       response = HTTMultiParty.post(
         Utils::REQUEST_ENDPOINT,
         body: body,
-        headers: { Authorization: "Token #{token}" }
+        headers: { 'Authorization' => "Token #{token}" }
       )
       raise(RecastError.new(response.message)) if response.code != 200
 
