@@ -1,4 +1,6 @@
 
+require_relative 'message'
+
 module RecastAI
   class Connect
     include Message

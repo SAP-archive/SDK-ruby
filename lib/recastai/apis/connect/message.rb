@@ -1,7 +1,10 @@
 
+require_relative 'utils'
+require_relative '../errors'
+
 module RecastAI
   module Message
-    def parse_message(self, request)
+    def parse_message(request)
       Msg.new(request.body, @token)
     end
 

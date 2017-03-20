@@ -1,4 +1,7 @@
 
+require_relative '../utils'
+require_relative '../../errors'
+
 module RecastAI
   class Msg
     attr_reader :token, :content, :type, :conversation_id, :replies
