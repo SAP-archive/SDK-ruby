@@ -38,4 +38,40 @@ describe RecastAI::Conversation do
     expect(conversation.get_memory('lieu')).to eq(conversation.memory.each{ |e| break e if e.name.casecmp('lieu') == 0 })
     expect(conversation.intent()).to eq(nil)
   end
+
+  it 'should set the memory' do
+    stub_request(:put, "https://api.recast.ai/v2/converse/").
+      with(:body => "conversation_token=1",
+          :headers => {'Authorization'=>'Token toto'}).
+      to_return(:status => 200, :body => '{"results": {"memory": {"vegetable": {}}}}', :headers => {})
+
+    entities = RecastAI::Conversation.set_memory('toto', 1, {vegetable: {}})
+    expect(entities.size).to eq(1)
+    expect(entities[0]).to be_a(RecastAI::Entity)
+    expect(entities[0].name).to eq('vegetable')
+  end
+
+  it 'should reset the memory' do
+    stub_request(:put, "https://api.recast.ai/v2/converse/").
+      with(:body => "conversation_token=1&memory[vegetable]=",
+          :headers => {'Authorization'=>'Token toto'}).
+      to_return(:status => 200, :body => '{"results": {"memory": {"vegetable": {}}}}', :headers => {})
+
+    entities = RecastAI::Conversation.reset_memory('toto', 1, 'vegetable')
+    expect(entities.size).to eq(1)
+    expect(entities[0]).to be_a(RecastAI::Entity)
+    expect(entities[0].name).to eq('vegetable')
+  end
+
+  it 'should reset the conversation' do
+    stub_request(:delete, "https://api.recast.ai/v2/converse/").
+      with(:body => "conversation_token=1",
+          :headers => {'Authorization'=>'Token toto'}).
+      to_return(:status => 200, :body => '{"results": {"memory": {"vegetable": {}}}}', :headers => {})
+
+    entities = RecastAI::Conversation.reset_conversation('toto', 1)
+    expect(entities.size).to eq(1)
+    expect(entities[0]).to be_a(RecastAI::Entity)
+    expect(entities[0].name).to eq('vegetable')
+  end
 end

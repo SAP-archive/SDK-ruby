@@ -15,8 +15,8 @@ module RecastAI
         self.define_singleton_method(k.to_sym){ v }
       end
 
-      @content = request['message']['attachement']['content']
-      @type = request['message']['attachement']['type']
+      @content = request['message']['attachment']['content']
+      @type = request['message']['attachment']['type']
       @conversation_id = request['message']['conversation_id']
 
       @replies = []

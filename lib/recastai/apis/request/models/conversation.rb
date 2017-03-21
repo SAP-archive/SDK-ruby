@@ -108,13 +108,13 @@ module RecastAI
         response = HTTParty.put(
           Utils::CONVERSE_ENDPOINT,
           body: body,
-          headers: { Authorization: "Token #{token}" }
+          headers: { 'Authorization' => "Token #{token}" }
         )
         raise(RecastError.new(response.message)) if response.code != 200
 
         response = JSON.parse(response.body)
         response = response['results']
-        response['memory'].select{ |n, e| !e.nil? }.map{ |n, e| Entity.new(n, e) }
+        response['memory'].reject { |n, e| e.nil? }.map { |n, e| Entity.new(n, e) }
       end
 
       ##
@@ -130,19 +130,18 @@ module RecastAI
       #   - RecastError
       def reset_memory(token, conversation_token, name=nil)
         body = { conversation_token: conversation_token }
-        unless name.nil?
-          body[:memory] = { name => nil }
-        end
+        body[:memory] = { name => nil } unless name.nil?
+
         response = HTTParty.put(
           Utils::CONVERSE_ENDPOINT,
           body: body,
-          headers: { Authorization: "Token #{token}" }
+          headers: { 'Authorization' => "Token #{token}" }
         )
         raise(RecastError.new(response.message)) if response.code != 200
 
         response = JSON.parse(response.body)
         response = response['results']
-        response['memory'].select{ |n, e| !e.nil? }.map{ |n, e| Entity.new(n, e) }
+        response['memory'].reject { |n, e| e.nil? }.map { |n, e| Entity.new(n, e) }
       end
 
       ##
@@ -161,13 +160,13 @@ module RecastAI
         response = HTTParty.delete(
           Utils::CONVERSE_ENDPOINT,
           body: body,
-          headers: { Authorization: "Token #{token}" }
+          headers: { 'Authorization' => "Token #{token}" }
         )
         raise(RecastError.new(response.message)) if response.code != 200
 
         response = JSON.parse(response.body)
         response = response['results']
-        response['memory'].select{ |n, e| !e.nil? }.map{ |n, e| Entity.new(n, e) }
+        response['memory'].reject { |n, e| e.nil? }.map { |n, e| Entity.new(n, e) }
       end
     end
   end

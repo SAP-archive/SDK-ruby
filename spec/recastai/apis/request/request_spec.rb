@@ -10,6 +10,7 @@ describe RecastAI::Request do
 
     expect{ client.token }.not_to raise_error
     expect{ client.language }.not_to raise_error
+    expect{ client.proxy }.not_to raise_error
   end
 
   it 'should perform a text request via a Request object' do
@@ -48,7 +49,7 @@ describe RecastAI::Request do
     stub_request(:post, 'https://api.recast.ai/v2/request/').to_return(status: 200, body: body, headers: {})
 
     # Testing the method
-    response = client.analyze_file(File.new(File.join(File.dirname(__FILE__), '/../utils/test.wav')))
+    response = client.analyze_file(File.new(File.join(File.dirname(__FILE__), '/../../../utils/test.wav')))
 
     # Testing the response
     expect(response).to be_a(RecastAI::Response)
@@ -62,7 +63,7 @@ describe RecastAI::Request do
     stub_request(:post, 'https://api.recast.ai/v2/request/').to_return(status: 200, body: body, headers: {})
 
     # Testing the method
-    response = client.request.analyze_file(File.new(File.join(File.dirname(__FILE__), '/../utils/test.wav')))
+    response = client.request.analyze_file(File.new(File.join(File.dirname(__FILE__), '/../../../utils/test.wav')))
 
     # Testing the response
     expect(response).to be_a(RecastAI::Response)
@@ -107,7 +108,7 @@ describe RecastAI::Request do
 
     # Testing the methods
     text_response = client.analyze_text('This is my text', token: 'tokentest', language: 'fr')
-    file_response = client.analyze_file(File.new(File.join(File.dirname(__FILE__), '/../utils/test.wav')), token: 'tokentest', language: 'fr')
+    file_response = client.analyze_file(File.new(File.join(File.dirname(__FILE__), '/../../../utils/test.wav')), token: 'tokentest', language: 'fr')
     text_conversation = client.converse_text('This is my text', token: 'tokentest', language: 'fr', conversation_token: 'conversationtokentest', memory: { lieu: { lat: 0.54, lnt: 0.435 } })
 
     # Testing the responses

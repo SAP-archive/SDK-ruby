@@ -1,4 +1,5 @@
 
+require_relative 'models/message'
 require_relative 'utils'
 require_relative '../errors'
 
@@ -10,7 +11,7 @@ module RecastAI
 
     def send_message(payload, conversation_id)
       response = HTTParty.post(
-        Utils::CONVERSATION_ENDPOINT + conversation_id + '/messages',
+        "#{Utils::CONVERSATION_ENDPOINT}#{conversation_id}/messages",
         json: payload,
         headers: { 'Authorization' => "Token #{token}" }
       )
