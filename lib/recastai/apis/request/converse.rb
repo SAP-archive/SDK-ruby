@@ -22,8 +22,7 @@ module RecastAI
         body: body,
         headers: { 'Authorization' => "Token #{token}" }
       )
-
-      raise(RecastError.new(response.message)) if response.code != 200
+      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
 
       Conversation.new(response.body)
     end
