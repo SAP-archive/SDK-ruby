@@ -17,49 +17,50 @@ describe RecastAI::Connect do
     client = RecastAI::Connect.new('toto')
     conversation_id = 1
 
-    stub_request(:post, "#{RecastAI::Utils::CONVERSATION_ENDPOINT}#{conversation_id}/messages").to_return(status: 200, body: '', headers: {})
+    stub_request(:post, "#{RecastAI::Utils::CONVERSATION_ENDPOINT}#{conversation_id}/messages").to_return(status: 201, body: '', headers: {})
 
     response = client.send_message({}, conversation_id)
-    expect(response.code).to eq(200)
+    expect(response.code).to eq(201)
   end
 
   it 'should send a message with a Client object' do
     client = RecastAI::Client.new('toto')
     conversation_id = 1
 
-    stub_request(:post, "#{RecastAI::Utils::CONVERSATION_ENDPOINT}#{conversation_id}/messages").to_return(status: 200, body: '', headers: {})
+    stub_request(:post, "#{RecastAI::Utils::CONVERSATION_ENDPOINT}#{conversation_id}/messages").to_return(status: 201, body: '', headers: {})
 
     response = client.connect.send_message({}, conversation_id)
-    expect(response.code).to eq(200)
+    expect(response.code).to eq(201)
   end
 
   it 'should broadcast a message with a Connect object' do
     client = RecastAI::Connect.new('toto')
 
-    stub_request(:post, RecastAI::Utils::MESSAGE_ENDPOINT).to_return(status: 200, body: '', headers: {})
+    stub_request(:post, RecastAI::Utils::MESSAGE_ENDPOINT).to_return(status: 201, body: '', headers: {})
 
     response = client.broadcast_message({})
-    expect(response.code).to eq(200)
+    expect(response.code).to eq(201)
   end
 
   it 'should broadcast a message with a Client object' do
     client = RecastAI::Client.new('toto')
 
-    stub_request(:post, RecastAI::Utils::MESSAGE_ENDPOINT).to_return(status: 200, body: '', headers: {})
+    stub_request(:post, RecastAI::Utils::MESSAGE_ENDPOINT).to_return(status: 201, body: '', headers: {})
 
     response = client.connect.broadcast_message({})
-    expect(response.code).to eq(200)
+    expect(response.code).to eq(201)
   end
 
   it 'should parse a message' do
     client = RecastAI::Connect.new('toto')
     conversation_id = 1
 
-    body = '{"message": {"conversation_id": "1", "attachment": {"content": "", "type": ""}}}'
-    stub_request(:post, "#{RecastAI::Utils::CONVERSATION_ENDPOINT}#{conversation_id}/messages").to_return(status: 200, body: body, headers: {})
+    body = '{"message": {"conversation": "1", "attachment": {"content": "", "type": ""}}}'
+    stub_request(:post, "#{RecastAI::Utils::CONVERSATION_ENDPOINT}#{conversation_id}/messages").to_return(status: 201, body: body, headers: {})
 
-    response = client.send_message({}, conversation_id)
-    msg = client.parse_message(response)
-    expect(msg).to be_a(RecastAI::Msg)
+    request = client.send_message({}, conversation_id)
+    client.handle_message(request) do |msg|
+      expect(msg).to be_a(RecastAI::Msg)
+    end
   end
 end

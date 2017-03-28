@@ -2,22 +2,24 @@
 
 require_relative 'models/message'
 require_relative 'utils'
-require_relative '../errors'
 
 module RecastAI
   module Message
-    def parse_message(request)
-      Msg.new(request.body, @token)
+    def handle_message(request, &block)
+      request.body.rewind if request.body.respond_to?(:rewind)
+      body = request.body.is_a?(String) ? request.body : request.body.read
+      message = Msg.new(body)
+
+      yield(message)
     end
 
     def send_message(payload, conversation_id)
       response = HTTParty.post(
         "#{Utils::CONVERSATION_ENDPOINT}#{conversation_id}/messages",
-        json: payload,
+        body: { messages: payload },
         headers: { 'Authorization' => "Token #{token}" }
       )
-
-      raise(RecastError.new(response.message)) if response.code != 200
+      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 201
 
       response
     end
@@ -25,11 +27,10 @@ module RecastAI
     def broadcast_message(payload)
       response = HTTParty.post(
         Utils::MESSAGE_ENDPOINT,
-        json: payload,
+        body: { messages: payload },
         headers: { 'Authorization' => "Token #{token}" }
       )
-
-      raise(RecastError.new(response.message)) if response.code != 200
+      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 201
 
       response
     end

@@ -1,11 +1,12 @@
+# encoding: utf-8
 
-require_relative 'analyze'
+require_relative 'analyse'
 require_relative 'converse'
 
 module RecastAI
   class Request
     include Converse
-    include Analyze
+    include Analyse
 
     attr_reader :token, :language, :proxy
 

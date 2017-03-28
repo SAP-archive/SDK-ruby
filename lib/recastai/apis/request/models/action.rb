@@ -1,7 +1,5 @@
 # encoding: utf-8
 
-##
-# This class builds an action used by RecastAI:::Conversation
 module RecastAI
   class Action
     attr_reader :slug

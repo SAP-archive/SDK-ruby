@@ -9,35 +9,35 @@ Recast.AI official SDK in Ruby
 ## Synospis
 
 This module is a wrapper around the [Recast.AI](https://recast.ai) API, and allows you to:
-* [build a bot](https://github.com/RecastAI/SDK-Ruby/wiki/Build-your-bot)
-* [analyze your text](https://github.com/RecastAI/SDK-Ruby/wiki/Analyse-text)
+* [Analyse your text](https://github.com/RecastAI/SDK-Ruby/wiki/01---Analyse-text)
+* [Manage a conversation](https://github.com/RecastAI/SDK-Ruby/wiki/02---Manage-conversation)
+* [Receive and send messages](https://github.com/RecastAI/SDK-Ruby/wiki/03---Receive-and-send-messages)
 
 ## Installation
 
+This gem supports ruby 2.3+.
+
 ```bash
-gem install 'RecastAI'
+gem install RecastAI
 ```
 
-## Documentation
+You can now use the sdk in your code.
 
-You can find the full documentation [here](https://github.com/RecastAI/SDK-Ruby/wiki).
+Using the entire SDK:
+```ruby
+require 'recastai'
 
-## Specs
+client = RecastAI.new('YOUR_TOKEN')
+```
 
-### Classes
+Extracting one single API:
+```ruby
+require 'recastai'
 
-This module contains 7 classes, as follows:
+request = RecastAI::Request.new('YOUR_TOKEN')
+connect = RecastAI::Connect.new('YOUR_TOKEN')
+```
 
-* [Client](https://github.com/RecastAI/SDK-Ruby/wiki/Class-Client) is the client allowing you to make requests.
-* [Response](https://github.com/RecastAI/SDK-Ruby/wiki/Class-Response) wraps the response from a call to [Recast.AI](https://recast.ai) API with the text_request or file_request Client methods. 
-* [Conversation](https://github.com/RecastAI/SDK-Ruby/wiki/Class-Conversation) wraps the response from a call to [Recast.AI](https://recast.ai) API with the text_converse Client method.
-* [Action](https://github.com/RecastAI/SDK-Ruby/wiki/Class-Action) represents an action to do when using the text_converse method.
-* [Intent](https://github.com/RecastAI/SDK-Ruby/wiki/Class-Intent) represents an intent matched when using either the text_request, file_request or text_converse methods.
-* [Entity](https://github.com/RecastAI/SDK-Ruby/wiki/Class-Entity) represents an entity extracted from an input.
-* [RecastError](https://github.com/RecastAI/SDK-Ruby/wiki/Class-RecastError) is the error returned by the module.
-
-Don't hesitate to dive into the code, it's commented ;)
-`
 ## More
 
 You can view the whole API reference at [man.recast.ai](https://man.recast.ai).
@@ -52,7 +52,7 @@ You can follow us on Twitter at [@recastai](https://twitter.com/recastai) for up
 
 ## License
 
-Copyright (c) [2016] [Recast.AI](https://recast.ai)
+Copyright (c) [2017] [Recast.AI](https://recast.ai)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

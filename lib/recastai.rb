@@ -8,10 +8,7 @@ require 'json'
 
 require 'recastai/utils'
 require 'recastai/apis/connect/connect'
-require 'recastai/apis/host/host'
-require 'recastai/apis/monitor/monitor'
 require 'recastai/apis/request/request'
-require 'recastai/apis/train/train'
 
 module RecastAI
   class Client

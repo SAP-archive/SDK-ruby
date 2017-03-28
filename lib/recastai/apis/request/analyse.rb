@@ -1,11 +1,12 @@
+# encoding: utf-8
 
-require_relative '../errors'
-require_relative 'utils'
 require_relative 'models/response'
+require_relative 'utils'
+require_relative '../errors'
 
 module RecastAI
-  module Analyze
-    def analyze_text(text, token = nil, language = nil, proxy = nil)
+  module Analyse
+    def analyse_text(text, token = nil, language = nil, proxy = nil)
       token ||= @token
       raise(RecastError.new('Token is missing')) if token.nil?
 
@@ -18,12 +19,12 @@ module RecastAI
         body: body,
         headers: { 'Authorization' => "Token #{token}" }
       )
-      raise(RecastError.new(response.message)) if response.code != 200
+      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
 
       Response.new(response.body)
     end
 
-    def analyze_file(file, token = nil, language = nil, proxy = nil)
+    def analyse_file(file, token = nil, language = nil, proxy = nil)
       token ||= @token
       raise(RecastError.new('Token is missing')) if token.nil?
 
@@ -36,7 +37,7 @@ module RecastAI
         body: body,
         headers: { 'Authorization' => "Token #{token}" }
       )
-      raise(RecastError.new(response.message)) if response.code != 200
+      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
 
       Response.new(response.body)
     end

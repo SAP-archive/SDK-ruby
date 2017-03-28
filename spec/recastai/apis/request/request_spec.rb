@@ -21,7 +21,7 @@ describe RecastAI::Request do
     stub_request(:post, 'https://api.recast.ai/v2/request/').to_return(status: 200, body: body, headers: {})
 
     # Testing the method
-    response = client.analyze_text('This is my text')
+    response = client.analyse_text('This is my text')
 
     # Testing the response
     expect(response).to be_a(RecastAI::Response)
@@ -35,7 +35,7 @@ describe RecastAI::Request do
     stub_request(:post, 'https://api.recast.ai/v2/request/').to_return(status: 200, body: body, headers: {})
 
     # Testing the method
-    response = client.request.analyze_text('This is my text')
+    response = client.request.analyse_text('This is my text')
 
     # Testing the response
     expect(response).to be_a(RecastAI::Response)
@@ -49,7 +49,7 @@ describe RecastAI::Request do
     stub_request(:post, 'https://api.recast.ai/v2/request/').to_return(status: 200, body: body, headers: {})
 
     # Testing the method
-    response = client.analyze_file(File.new(File.join(File.dirname(__FILE__), '/../../../utils/test.wav')))
+    response = client.analyse_file(File.new(File.join(File.dirname(__FILE__), '/../../../utils/test.wav')))
 
     # Testing the response
     expect(response).to be_a(RecastAI::Response)
@@ -63,7 +63,7 @@ describe RecastAI::Request do
     stub_request(:post, 'https://api.recast.ai/v2/request/').to_return(status: 200, body: body, headers: {})
 
     # Testing the method
-    response = client.request.analyze_file(File.new(File.join(File.dirname(__FILE__), '/../../../utils/test.wav')))
+    response = client.request.analyse_file(File.new(File.join(File.dirname(__FILE__), '/../../../utils/test.wav')))
 
     # Testing the response
     expect(response).to be_a(RecastAI::Response)
@@ -107,8 +107,8 @@ describe RecastAI::Request do
     stub_request(:post, 'https://api.recast.ai/v2/converse/').to_return(status: 200, body: body, headers: {})
 
     # Testing the methods
-    text_response = client.analyze_text('This is my text', token: 'tokentest', language: 'fr')
-    file_response = client.analyze_file(File.new(File.join(File.dirname(__FILE__), '/../../../utils/test.wav')), token: 'tokentest', language: 'fr')
+    text_response = client.analyse_text('This is my text', token: 'tokentest', language: 'fr')
+    file_response = client.analyse_file(File.new(File.join(File.dirname(__FILE__), '/../../../utils/test.wav')), token: 'tokentest', language: 'fr')
     text_conversation = client.converse_text('This is my text', token: 'tokentest', language: 'fr', conversation_token: 'conversationtokentest', memory: { lieu: { lat: 0.54, lnt: 0.435 } })
 
     # Testing the responses

@@ -4,8 +4,6 @@ require_relative 'action'
 require_relative 'entity'
 require_relative 'intent'
 
-##
-# This class builds a conversation from *_converse
 module RecastAI
   class Conversation
     attr_reader :raw, :uuid, :source, :replies, :action, :next_actions, :memory, :entities, :intents,

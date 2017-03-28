@@ -4,8 +4,6 @@ require_relative 'intent'
 require_relative 'entity'
 require_relative '../utils'
 
-##
-# This class builds a response from *_request
 module RecastAI
   class Response
     attr_reader :raw
