@@ -6,30 +6,36 @@ require_relative '../errors'
 
 module RecastAI
   module Analyse
-    def analyse_text(text, opts = { token: @token, language: @language })
-      raise RecastError.new('Token is missing') if opts[:token].nil?
+    def analyse_text(text, token: nil, language: nil)
+      token ||= @token
+      raise RecastError.new('Token is missing') if token.nil?
+
+      language ||= @language
 
       body = { text: text }
-      body[:language] = opts[:language] unless opts[:language].nil?
+      body[:language] = language unless language.nil?
       response = HTTParty.post(
         Utils::REQUEST_ENDPOINT,
         body: body,
-        headers: { 'Authorization' => "Token #{opts[:token]}" }
+        headers: { 'Authorization' => "Token #{token}" }
       )
       raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
 
       Response.new(response.body)
     end
 
-    def analyse_file(file, opts = { token: @token, language: @language })
-      raise RecastError.new('Token is missing') if opts[:token].nil?
+    def analyse_file(file, token: nil, language: nil)
+      token ||= @token
+      raise RecastError.new('Token is missing') if token.nil?
+
+      language ||= @language
 
       body = { voice: File.new(file) }
-      body[:language] = opts[:language] unless opts[:language].nil?
+      body[:language] = language unless language.nil?
       response = HTTMultiParty.post(
         Utils::REQUEST_ENDPOINT,
         body: body,
-        headers: { 'Authorization' => "Token #{opts[:token]}" }
+        headers: { 'Authorization' => "Token #{token}" }
       )
       raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
 
