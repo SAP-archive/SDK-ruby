@@ -2,9 +2,9 @@
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
+require 'json'
 require 'httparty'
 require 'httmultiparty'
-require 'json'
 
 require 'recastai/utils'
 require 'recastai/apis/connect/connect'
