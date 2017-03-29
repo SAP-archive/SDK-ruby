@@ -13,7 +13,9 @@ module RecastAI
       yield(message)
     end
 
-    def send_message(payload, conversation_id)
+    def send_message(payload, conversation_id, opts = { token: @token, language: @language })
+      raise RecastError.new('Token is missing') if opts[:token].nil?
+
       response = HTTParty.post(
         "#{Utils::CONVERSATION_ENDPOINT}#{conversation_id}/messages",
         body: { messages: payload },
@@ -24,7 +26,9 @@ module RecastAI
       response
     end
 
-    def broadcast_message(payload)
+    def broadcast_message(payload, opts = { token: @token, language: @language })
+      raise RecastError.new('Token is missing') if opts[:token].nil?
+
       response = HTTParty.post(
         Utils::MESSAGE_ENDPOINT,
         body: { messages: payload },

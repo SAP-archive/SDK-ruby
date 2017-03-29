@@ -6,21 +6,18 @@ require_relative '../errors'
 
 module RecastAI
   module Converse
-    def converse_text(text, token = nil, language = nil, proxy = nil, conversation_token = nil, memory = nil)
-      token ||= @token
-      raise(RecastError.new('Token is missing')) if token.nil?
-
-      language ||= @language
+    def converse_text(text, opts = { token: @token, language: @language, conversation_token: nil, memory: nil })
+      raise RecastError.new('Token is missing') if opts[:token].nil?
 
       body = { text: text }
-      body[:language] = language unless language.nil?
-      body[:conversation_token] = conversation_token unless conversation_token.nil?
-      body[:memory] = memory unless memory.nil?
+      body[:language] = opts[:language] unless opts[:language].nil?
+      body[:conversation_token] = opts[:conversation_token] unless opts[:conversation_token].nil?
+      body[:memory] = opts[:memory] unless opts[:memory].nil?
 
       response = HTTParty.post(
         Utils::CONVERSE_ENDPOINT,
         body: body,
-        headers: { 'Authorization' => "Token #{token}" }
+        headers: { 'Authorization' => "Token #{opts[:token]}" }
       )
       raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
 
