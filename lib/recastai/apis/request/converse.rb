@@ -21,7 +21,7 @@ module RecastAI
       )
       raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
 
-      Conversation.new(response.body)
+      Conversation.new(response.body, opts[:token])
     end
   end
 end

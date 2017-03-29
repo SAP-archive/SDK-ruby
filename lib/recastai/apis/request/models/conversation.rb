@@ -88,7 +88,7 @@ module RecastAI
       response['memory'].reject { |_, e| e.nil? }.map { |n, e| Entity.new(n, e) }
     end
 
-    def reset_conversation()
+    def reset_conversation
       body = { conversation_token: @conversation_token }
       response = HTTParty.delete(
         Utils::CONVERSE_ENDPOINT,

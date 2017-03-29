@@ -12,14 +12,14 @@ require 'recastai/apis/request/request'
 
 module RecastAI
   class Client
-    attr_reader :token, :language, :proxy
+    attr_reader :token, :language
 
-    def initialize(token = nil, language = nil, proxy = nil)
+    def initialize(token = nil, language = nil)
       [RecastAI::Request, RecastAI::Connect].each do |api|
         i = api.name.rindex('::')
         name = i.nil? ? api.name : api.name[(i + 2)..-1]
 
-        self.class.send(:define_method, name.downcase.to_sym, ->{ api.new(token, language, proxy) })
+        self.class.send(:define_method, name.downcase.to_sym, ->{ api.new(token, language) })
       end
     end
   end

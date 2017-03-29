@@ -6,12 +6,11 @@ module RecastAI
   class Connect
     include Message
 
-    attr_reader :token, :language, :proxy
+    attr_reader :token, :language
 
-    def initialize(token = nil, language = nil, proxy = nil)
+    def initialize(token = nil, language = nil)
       @token = token
       @language = language
-      @proxy = proxy
     end
   end
 end
