@@ -1,8 +1,10 @@
-# Recast.AI - SDK Ruby
 
-[logo]: https://github.com/RecastAI/SDK-Ruby/blob/master/misc/logo-inline.png "Recast.AI"
+
+[logo]: https://cdn.recast.ai/brand/recast-ai-logo-inline.png "Recast.AI"
 
 ![alt text][logo]
+
+# Recast.AI - SDK Ruby
 
 Recast.AI official SDK in Ruby
 
