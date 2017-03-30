@@ -27,7 +27,7 @@ module RecastAI
       Conversation.new(response.body, token)
     end
 
-    def analyse_file(file, token: nil, language: nil, conversation_token: nil, memory: nil)
+    def converse_file(file, token: nil, language: nil, conversation_token: nil, memory: nil)
       token ||= @token
       raise RecastError.new('Token is missing') if token.nil?
 
