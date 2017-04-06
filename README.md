@@ -29,7 +29,7 @@ Using the entire SDK:
 ```ruby
 require 'recastai'
 
-client = RecastAI.new('YOUR_TOKEN')
+client = RecastAI::Client.new('YOUR_TOKEN')
 ```
 
 Extracting one single API:
