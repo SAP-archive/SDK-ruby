@@ -30,6 +30,7 @@ Using the entire SDK:
 require 'recastai'
 
 client = RecastAI::Client.new('YOUR_TOKEN')
+client.request.analyse_text 'Hello'
 ```
 
 Extracting one single API:
