@@ -15,6 +15,7 @@ module RecastAI
     attr_reader :sentiment
     attr_reader :entities
     attr_reader :language
+    attr_reader :processing_language
     attr_reader :version
     attr_reader :timestamp
     attr_reader :status
@@ -25,17 +26,18 @@ module RecastAI
       response = JSON.parse(response)
       response = response['results']
 
-      @uuid      = response['uuid']
-      @source    = response['source']
-      @intents   = response['intents'].map{ |i| Intent.new(i) }
-      @act       = response['act']
-      @type      = response['type']
-      @sentiment = response['sentiment']
-      @entities  = response['entities'].flat_map{ |n, e| e.map{ |ee| Entity.new(n, ee) } }
-      @language  = response['language']
-      @version   = response['version']
-      @timestamp = response['timestamp']
-      @status    = response['status']
+      @uuid                = response['uuid']
+      @source              = response['source']
+      @intents             = response['intents'].map{ |i| Intent.new(i) }
+      @act                 = response['act']
+      @type                = response['type']
+      @sentiment           = response['sentiment']
+      @entities            = response['entities'].flat_map{ |n, e| e.map{ |ee| Entity.new(n, ee) } }
+      @language            = response['language']
+      @processing_language = response['processing_language']
+      @version             = response['version']
+      @timestamp           = response['timestamp']
+      @status              = response['status']
     end
 
     def intent
