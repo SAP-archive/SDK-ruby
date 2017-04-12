@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    RecastAI (3.0.0)
+    recastai (3.0.0)
       httmultiparty (~> 0.3)
       httparty (~> 0.13)
 
@@ -53,8 +53,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  RecastAI!
   awesome_print (~> 1.6)
+  recastai!
   rspec (~> 3.4)
   simplecov (~> 0.11)
   webmock (~> 1.24)

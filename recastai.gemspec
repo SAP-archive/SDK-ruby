@@ -7,7 +7,7 @@ require 'date'
 require 'lib/recastai/utils'
 
 Gem::Specification.new do |spec|
-  spec.name                  = 'RecastAI'
+  spec.name                  = 'recastai'
   spec.version               = RecastAI::Utils::VERSION
   spec.date                  = Date.today
   spec.summary               = 'Recast.AI official SDK for Ruby'

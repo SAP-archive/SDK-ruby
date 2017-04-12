@@ -20,7 +20,7 @@ This module is a wrapper around the [Recast.AI](https://recast.ai) API, and allo
 This gem supports ruby 2.3+.
 
 ```bash
-gem install RecastAI
+gem install recastai
 ```
 
 You can now use the sdk in your code.
