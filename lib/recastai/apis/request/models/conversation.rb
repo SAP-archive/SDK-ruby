@@ -23,7 +23,7 @@ module RecastAI
       @action             = response['action'] ? Action.new(response['action']) : nil
       @next_actions       = response['next_actions'].map{ |i| Action.new(i) }
       @memory             = response['memory'].reject { |_, e| e.nil? }.map{ |n, e| Entity.new(n, e) }
-      @entities           = response['entities'].flat_map{ |_, e| e.map{ |ee| Entity.new(n, ee) } }
+      @entities           = response['entities'].flat_map{ |_, e| e.map{ |ee| Entity.new(_, ee) } }
       @intents            = response['intents'].map{ |i| Intent.new(i) }
       @conversation_token = response['conversation_token']
       @language           = response['language']
