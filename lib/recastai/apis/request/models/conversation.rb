@@ -3,11 +3,12 @@
 require_relative 'action'
 require_relative 'entity'
 require_relative 'intent'
+require_relative '../utils'
 
 module RecastAI
   class Conversation
-    attr_reader :raw, :uuid, :source, :replies, :action, :next_actions, :memory, :entities, :intents,
-                :conversation_token, :language, :version, :timestamp, :status
+    attr_reader :raw, :uuid, :source, :replies, :action, :next_actions, :memory, :entities, :sentiment, :intents,
+                :conversation_token, :language, :processing_language, :version, :timestamp, :status
 
     def initialize(response, token)
       @token = token
@@ -17,19 +18,21 @@ module RecastAI
       response = JSON.parse(response)
       response = response['results']
 
-      @uuid               = response['uuid']
-      @source             = response['source']
-      @replies            = response['replies']
-      @action             = response['action'] ? Action.new(response['action']) : nil
-      @next_actions       = response['next_actions'].map{ |i| Action.new(i) }
-      @memory             = response['memory'].reject { |_, e| e.nil? }.map{ |n, e| Entity.new(n, e) }
-      @entities           = response['entities'].flat_map{ |_, e| e.map{ |ee| Entity.new(_, ee) } }
-      @intents            = response['intents'].map{ |i| Intent.new(i) }
-      @conversation_token = response['conversation_token']
-      @language           = response['language']
-      @version            = response['version']
-      @timestamp          = response['timestamp']
-      @status             = response['status']
+      @uuid                = response['uuid']
+      @source              = response['source']
+      @replies             = response['replies']
+      @action              = response['action'] ? Action.new(response['action']) : nil
+      @next_actions        = response['next_actions'].map{ |i| Action.new(i) }
+      @sentiment           = response['sentiment']
+      @memory              = response['memory'].reject{ |_, e| e.nil? }.map{ |n, e| Entity.new(n, e) }
+      @entities            = response['entities'].flat_map{ |n, e| e.map{ |ee| Entity.new(n, ee) } }
+      @intents             = response['intents'].map{ |i| Intent.new(i) }
+      @conversation_token  = response['conversation_token']
+      @language            = response['language']
+      @processing_language = response['processing_language']
+      @version             = response['version']
+      @timestamp           = response['timestamp']
+      @status              = response['status']
     end
 
     def reply
@@ -58,6 +61,26 @@ module RecastAI
       @intents.any? ? @intents.first : nil
     end
 
+    def vpositive?
+      @sentiment == Utils::SENTIMENT_VPOSITIVE
+    end
+
+    def positive?
+      @sentiment == Utils::SENTIMENT_POSITIVE
+    end
+
+    def neutral?
+      @sentiment == Utils::SENTIMENT_NEUTRAL
+    end
+
+    def negative?
+      @sentiment == Utils::SENTIMENT_NEGATIVE
+    end
+
+    def vnegative?
+      @sentiment == Utils::SENTIMENT_VNEGATIVE
+    end
+
     def set_memory(memory)
       body = { conversation_token: @conversation_token, memory: memory }
       response = HTTParty.put(
@@ -69,7 +92,7 @@ module RecastAI
 
       response = JSON.parse(response.body)
       response = response['results']
-      response['memory'].reject { |_, e| e.nil? }.map { |n, e| Entity.new(n, e) }
+      response['memory'].reject{ |_, e| e.nil? }.map{ |n, e| Entity.new(n, e) }
     end
 
     def reset_memory(name = nil)
@@ -85,7 +108,7 @@ module RecastAI
 
       response = JSON.parse(response.body)
       response = response['results']
-      response['memory'].reject { |_, e| e.nil? }.map { |n, e| Entity.new(n, e) }
+      response['memory'].reject{ |_, e| e.nil? }.map{ |n, e| Entity.new(n, e) }
     end
 
     def reset_conversation
@@ -99,7 +122,7 @@ module RecastAI
 
       response = JSON.parse(response.body)
       response = response['results']
-      response['memory'].reject { |_, e| e.nil? }.map { |n, e| Entity.new(n, e) }
+      response['memory'].reject{ |_, e| e.nil? }.map{ |n, e| Entity.new(n, e) }
     end
   end
 end

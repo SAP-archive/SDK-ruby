@@ -30,7 +30,9 @@ Using the entire SDK:
 require 'recastai'
 
 client = RecastAI::Client.new('YOUR_TOKEN')
-client.request.analyse_text 'Hello'
+
+client.request.analyse_text('Hi')
+client.connect.broadcast_message('Hello')
 ```
 
 Extracting one single API:
@@ -38,7 +40,10 @@ Extracting one single API:
 require 'recastai'
 
 request = RecastAI::Request.new('YOUR_TOKEN')
+request.analyse_text('Hi')
+
 connect = RecastAI::Connect.new('YOUR_TOKEN')
+connect.broadcast_message('Hi')
 ```
 
 ## More
