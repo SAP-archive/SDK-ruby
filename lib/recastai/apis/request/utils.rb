@@ -6,8 +6,6 @@ module RecastAI
     REQUEST_ENDPOINT = 'https://api.recast.ai/v2/request/'.freeze
     CONVERSE_ENDPOINT = 'https://api.recast.ai/v2/converse/'.freeze
 
-    BOTS_SUFFIX = 'bots'.freeze
-
     # Act constants
     ACT_ASSERT = 'assert'.freeze
     ACT_COMMAND = 'command'.freeze

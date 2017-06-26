@@ -2,6 +2,7 @@
 
 require_relative 'models/bot'
 require_relative '../errors'
+require_relative 'utils'
 
 module RecastAI
   module BotCRUD
@@ -15,7 +16,7 @@ module RecastAI
       bot_name ||= @bot_name
       raise RecastError.new('Bot name is missing') if bot_name.nil?
 
-      ep = BotCRUD::endpoint(user_name, bot_name)
+      ep = Utils::endpoint(user_name, bot_name)
 
       response = HTTParty.get(
         ep,
@@ -26,10 +27,6 @@ module RecastAI
       puts response.body
 
       Bot.new(response.body, token)
-    end
-
-    def self.endpoint(user_name, bot_name, suffix = nil)
-      "#{Utils::TRAIN_ENDPOINT}users/#{user_name}/#{Utils::BOTS_SUFFIX}/#{bot_name}/#{suffix}"
     end
   end
 end
