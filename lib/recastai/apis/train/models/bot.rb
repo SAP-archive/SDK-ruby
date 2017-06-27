@@ -45,5 +45,17 @@ module RecastAI
       body = JSON.parse(response.body)
       Intent.new(body['results'], @token, @user_name, @name)
     end
+
+    def create_intent(intent)
+      response = HTTParty.post(
+        Utils::endpoint(@user_name, @name, Utils::INTENTS_SUFFIX),
+        headers: {
+          'Authorization': "Token #{@token}",
+          'Content-Type': 'application/json'
+        },
+        body: intent.to_json
+      )
+      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 201
+    end
   end
 end
