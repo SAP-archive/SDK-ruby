@@ -8,6 +8,7 @@ module RecastAI
     attr_reader :id, :name, :slug, :description, :public, :strictness,
       :request_token, :developer_token, :children_count, :parent, :intents,
       :actions, :gazettes, :language
+    attr_accessor :user_name
 
     def initialize(response, token)
       @token = token
@@ -27,7 +28,7 @@ module RecastAI
       @developer_token = response['developer_token']
       @children_count = response['children_count']
       @parent = response['parent']
-      @intents = response['intents'].map {|i| Intent.new(i, @token, @user_name, @name) }
+      @intents = response['intents'].map {|i| Intent.new(i, self) }
       @actions = response['actions']
       @gazettes = response['gazettes']
       @language = response['language']
@@ -43,7 +44,7 @@ module RecastAI
       raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
 
       body = JSON.parse(response.body)
-      Intent.new(body['results'], @token, @user_name, @name)
+      Intent.new(body['results'], self)
     end
 
     def create_intent(intent)

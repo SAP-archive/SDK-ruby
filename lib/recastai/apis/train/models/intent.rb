@@ -7,11 +7,10 @@ require 'json'
 module RecastAI
   class Intent
     attr_accessor :id, :name, :slug, :description, :expressions
+    attr_accessor :bot
 
-    def initialize(response = nil, token = nil, user_name = nil, bot_name = nil)
-      @token = token
-      @user_name = user_name
-      @bot_name = bot_name
+    def initialize(response = nil, bot = nil)
+      @bot = bot
 
       @raw = response
 
@@ -26,7 +25,7 @@ module RecastAI
 
     def find_expression_by_id(id)
       response = HTTParty.get(
-        Utils::endpoint(@user_name, @bot_name, Utils::INTENTS_SUFFIX, @slug, Utils::EXPRESSIONS_SUFFIX, id),
+        Utils::endpoint(bot.user_name, bot.name, Utils::INTENTS_SUFFIX, @slug, Utils::EXPRESSIONS_SUFFIX, id),
         headers: { 'Authorization' => "Token #{@token}" }
       )
       raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
@@ -49,6 +48,18 @@ module RecastAI
 
     def to_json(*a)
       as_json.to_json
+    end
+
+    def save!
+      response = HTTParty.put(
+        Utils::endpoint(@bot.user_name, @bot.name, Utils::INTENTS_SUFFIX, @slug),
+        headers: {
+          'Authorization': "Token #{@bot.developer_token}",
+          'Content-Type': 'application/json'
+        },
+        body: self.to_json
+      )
+      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
     end
   end
 end
