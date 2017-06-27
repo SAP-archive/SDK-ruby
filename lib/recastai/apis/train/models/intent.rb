@@ -61,5 +61,17 @@ module RecastAI
       )
       raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
     end
+
+    def create_expression(expression)
+      response = HTTParty.post(
+        Utils::endpoint(@bot.user_name, @bot.name, Utils::INTENTS_SUFFIX, @slug, Utils::EXPRESSIONS_SUFFIX),
+        headers: {
+          'Authorization': "Token #{@bot.developer_token}",
+          'Content-Type': 'application/json'
+        },
+        body: expression.to_json
+      )
+      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 201
+    end
   end
 end
