@@ -73,5 +73,15 @@ module RecastAI
       )
       raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 201
     end
+
+    def delete!
+      response = HTTParty.delete(
+        Utils::endpoint(@bot.user_name, @bot.name, Utils::INTENTS_SUFFIX, self.slug),
+        headers: {
+          'Authorization': "Token #{@bot.developer_token}"
+        }
+      )
+      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
+    end
   end
 end
