@@ -6,8 +6,10 @@ require_relative 'language'
 module RecastAI
   class Expression
     attr_accessor :id, :source, :tokens, :language
+    attr_accessor :intent
 
-    def initialize(response = nil)
+    def initialize(response = nil, intent = nil)
+      @intent = intent
       @raw = response
 
       if response
@@ -30,6 +32,16 @@ module RecastAI
 
     def to_json(*a)
       as_json.to_json
+    end
+
+    def delete!
+      response = HTTParty.delete(
+        Utils::endpoint(@intent.bot.user_name, @intent.bot.name, Utils::INTENTS_SUFFIX, @intent.slug, Utils::EXPRESSIONS_SUFFIX, self.id),
+        headers: {
+          'Authorization': "Token #{@intent.bot.developer_token}"
+        }
+      )
+      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
     end
   end
 end

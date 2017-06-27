@@ -19,7 +19,7 @@ module RecastAI
         @name = response['name']
         @slug = response['slug']
         @description = response['description']
-        @expressions = (response['expressions'] || []).map {|i| Expression.new i }
+        @expressions = (response['expressions'] || []).map {|e| Expression.new e, self }
       end
     end
 
@@ -31,7 +31,7 @@ module RecastAI
       raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
 
       body = JSON.parse(response.body)
-      Expression.new(body['results'])
+      Expression.new(body['results'], self)
     end
 
     def as_json(options = {})
