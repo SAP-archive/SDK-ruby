@@ -46,7 +46,7 @@ request.analyse_text('Hi')
 connect = RecastAI::Connect.new('YOUR_TOKEN')
 connect.broadcast_message('Hi')
 
-train = RecastAI::Train.new('YOUR_TOKEN', 'en', 'your_recast_login', 'demo_bot')
+train = RecastAI::Train.new('YOUR_TOKEN', 'your_recast_login', 'demo_bot')
 train.bot
 ```
 

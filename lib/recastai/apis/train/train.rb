@@ -6,11 +6,10 @@ module RecastAI
   class Train
     include BotCRUD
 
-    attr_reader :token, :language
+    attr_reader :token
 
-    def initialize(token = nil, language = nil, user_name = nil, bot_name = nil)
+    def initialize(token = nil, user_name = nil, bot_name = nil)
       @token = token
-      @language = language
       @user_name = user_name
       @bot_name = bot_name
     end
