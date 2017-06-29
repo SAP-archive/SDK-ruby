@@ -39,7 +39,7 @@ module RecastAI
         name: name,
         slug: slug,
         description: description,
-        expressions: expressions.map {|e| e.as_json}
+        expressions: expressions ? expressions.map {|e| e.as_json} : nil
       }
       data[:id] = id if id
 
