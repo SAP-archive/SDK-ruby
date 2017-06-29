@@ -8,9 +8,9 @@ module RecastAI
 
     attr_reader :token
 
-    def initialize(token = nil, user_name = nil, bot_name = nil)
+    def initialize(token = nil, user_slug = nil, bot_name = nil)
       @token = token
-      @user_name = user_name
+      @user_slug = user_slug
       @bot_name = bot_name
     end
   end

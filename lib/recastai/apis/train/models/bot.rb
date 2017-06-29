@@ -5,41 +5,42 @@ require_relative 'intent'
 
 module RecastAI
   class Bot
-    attr_reader :id, :name, :slug, :description, :public, :strictness,
-      :request_token, :developer_token, :children_count, :parent, :intents,
-      :actions, :gazettes, :language
-    attr_accessor :user_name
+    attr_reader :id, :name, :description, :public, :strictness,
+      :request_token, :children_count, :parent, :intents,
+      :actions, :gazettes, :language, :user_nickname
+    attr_accessor :user_slug, :slug, :developer_token
 
-    def initialize(response, token)
-      @token = token
-
+    def initialize(response = nil, user_slug = nil)
       @raw = response
 
-      response = JSON.parse(response)
-      response = response['results']
+      @user_slug = user_slug
 
-      @id = response['id']
-      @name = response['name']
-      @slug = response['slug']
-      @description = response['description']
-      @public = response['public']
-      @strictness = response['strictness']
-      @request_token = response['request_token']
-      @developer_token = response['developer_token']
-      @children_count = response['children_count']
-      @parent = response['parent']
-      @intents = response['intents'].map {|i| Intent.new(i, self) }
-      @actions = response['actions']
-      @gazettes = response['gazettes']
-      @language = response['language']
+      if response
+        response = JSON.parse(response)
+        response = response['results']
 
-      @user_name = response['user']['nickname']
+        @id = response['id']
+        @name = response['name']
+        @slug = response['slug']
+        @description = response['description']
+        @public = response['public']
+        @strictness = response['strictness']
+        @request_token = response['request_token']
+        @developer_token = response['developer_token']
+        @children_count = response['children_count']
+        @parent = response['parent']
+        @intents = response['intents'].map {|i| Intent.new(i, self) }
+        @actions = response['actions']
+        @gazettes = response['gazettes']
+        @language = response['language']
+        @user_nickname = response['user']['nickname']
+      end
     end
 
     def find_intent_by_slug(slug)
       response = HTTParty.get(
-        Utils::endpoint(@user_name, @name, Utils::INTENTS_SUFFIX, slug),
-        headers: { 'Authorization' => "Token #{@token}" }
+        Utils::endpoint(@user_slug, @slug, Utils::INTENTS_SUFFIX, slug),
+        headers: { 'Authorization' => "Token #{@developer_token}" }
       )
       raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
 
@@ -49,10 +50,10 @@ module RecastAI
 
     def create_intent(intent)
       response = HTTParty.post(
-        Utils::endpoint(@user_name, @name, Utils::INTENTS_SUFFIX),
+        Utils::endpoint(@user_slug, @slug, Utils::INTENTS_SUFFIX),
         headers: {
-          'Authorization': "Token #{@token}",
-          'Content-Type': 'application/json'
+          'Authorization' => "Token #{@developer_token}",
+          'Content-Type'  => 'application/json'
         },
         body: intent.to_json
       )

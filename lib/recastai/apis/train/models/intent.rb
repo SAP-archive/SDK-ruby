@@ -25,7 +25,7 @@ module RecastAI
 
     def find_expression_by_id(id)
       response = HTTParty.get(
-        Utils::endpoint(bot.user_name, bot.name, Utils::INTENTS_SUFFIX, @slug, Utils::EXPRESSIONS_SUFFIX, id),
+        Utils::endpoint(@bot.user_slug, bot.name, Utils::INTENTS_SUFFIX, @slug, Utils::EXPRESSIONS_SUFFIX, id),
         headers: { 'Authorization' => "Token #{@token}" }
       )
       raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
@@ -52,10 +52,10 @@ module RecastAI
 
     def save!
       response = HTTParty.put(
-        Utils::endpoint(@bot.user_name, @bot.name, Utils::INTENTS_SUFFIX, @slug),
+        Utils::endpoint(@bot.user_slug, @bot.slug, Utils::INTENTS_SUFFIX, @slug),
         headers: {
-          'Authorization': "Token #{@bot.developer_token}",
-          'Content-Type': 'application/json'
+          'Authorization' => "Token #{@bot.developer_token}",
+          'Content-Type'  => 'application/json'
         },
         body: self.to_json
       )
@@ -64,10 +64,10 @@ module RecastAI
 
     def create_expression(expression)
       response = HTTParty.post(
-        Utils::endpoint(@bot.user_name, @bot.name, Utils::INTENTS_SUFFIX, @slug, Utils::EXPRESSIONS_SUFFIX),
+        Utils::endpoint(@bot.user_slug, @bot.name, Utils::INTENTS_SUFFIX, @slug, Utils::EXPRESSIONS_SUFFIX),
         headers: {
-          'Authorization': "Token #{@bot.developer_token}",
-          'Content-Type': 'application/json'
+          'Authorization' => "Token #{@bot.developer_token}",
+          'Content-Type'  => 'application/json'
         },
         body: expression.to_json
       )
@@ -76,9 +76,9 @@ module RecastAI
 
     def delete!
       response = HTTParty.delete(
-        Utils::endpoint(@bot.user_name, @bot.name, Utils::INTENTS_SUFFIX, self.slug),
+        Utils::endpoint(@bot.user_slug, @bot.name, Utils::INTENTS_SUFFIX, self.slug),
         headers: {
-          'Authorization': "Token #{@bot.developer_token}"
+          'Authorization' => "Token #{@bot.developer_token}"
         }
       )
       raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
