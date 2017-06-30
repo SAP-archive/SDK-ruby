@@ -42,7 +42,7 @@ module RecastAI
         Utils::endpoint(@user_slug, @slug, Utils::INTENTS_SUFFIX, slug),
         headers: { 'Authorization' => "Token #{@developer_token}" }
       )
-      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
+      RecastError::raise_if_error response, 200
 
       body = JSON.parse(response.body)
       Intent.new(body['results'], self)
@@ -57,7 +57,7 @@ module RecastAI
         },
         body: intent.to_json
       )
-      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 201
+      RecastError::raise_if_error response, 201
 
       return Intent.new JSON.parse(response.body)['results'], self
     end
@@ -67,7 +67,7 @@ module RecastAI
         Utils::endpoint(@user_slug, @slug, Utils::INTENTS_SUFFIX),
         headers: { 'Authorization' => "Token #{@developer_token}" }
       )
-      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
+      RecastError::raise_if_error response, 200
 
       body = JSON.parse(response.body)
       @intents = body['results'].map {|i| Intent.new(i, self) }

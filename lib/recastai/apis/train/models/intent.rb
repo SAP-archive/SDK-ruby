@@ -28,7 +28,7 @@ module RecastAI
         Utils::endpoint(@bot.user_slug, @bot.slug, Utils::INTENTS_SUFFIX, @slug, Utils::EXPRESSIONS_SUFFIX, id),
         headers: { 'Authorization' => "Token #{@token}" }
       )
-      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
+      RecastError::raise_if_error response, 200
 
       body = JSON.parse(response.body)
       Expression.new(body['results'], self)
@@ -59,7 +59,7 @@ module RecastAI
         },
         body: self.to_json
       )
-      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
+      RecastError::raise_if_error response
     end
 
     def create_expression(expression)
@@ -71,7 +71,7 @@ module RecastAI
         },
         body: expression.to_json
       )
-      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 201
+      RecastError::raise_if_error response, 201
     end
 
     def delete!
@@ -81,7 +81,7 @@ module RecastAI
           'Authorization' => "Token #{@bot.developer_token}"
         }
       )
-      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
+      RecastError::raise_if_error response
     end
   end
 end

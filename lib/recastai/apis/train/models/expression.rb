@@ -41,7 +41,7 @@ module RecastAI
           'Authorization': "Token #{@intent.bot.developer_token}"
         }
       )
-      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
+      RecastError::raise_if_error response, 200
     end
   end
 end
