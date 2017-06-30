@@ -58,6 +58,8 @@ module RecastAI
         body: intent.to_json
       )
       raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 201
+
+      return Intent.new JSON.parse(response.body)['results'], self
     end
 
     def find_all_intents
