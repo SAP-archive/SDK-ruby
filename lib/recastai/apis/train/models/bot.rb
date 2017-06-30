@@ -59,5 +59,22 @@ module RecastAI
       )
       raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 201
     end
+
+    def find_all_intents
+      response = HTTParty.get(
+        Utils::endpoint(@user_slug, @slug, Utils::INTENTS_SUFFIX),
+        headers: { 'Authorization' => "Token #{@developer_token}" }
+      )
+      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
+
+      body = JSON.parse(response.body)
+      @intents = body['results'].map {|i| Intent.new(i, self) }
+    end
+
+    def empty!
+      self.find_all_intents.each do |i|
+        i.delete!
+      end
+    end
   end
 end
