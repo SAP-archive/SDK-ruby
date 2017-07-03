@@ -36,9 +36,9 @@ module RecastAI
 
     def delete!
       response = HTTParty.delete(
-        Utils::endpoint(@intent.bot.user_name, @intent.bot.name, Utils::INTENTS_SUFFIX, @intent.slug, Utils::EXPRESSIONS_SUFFIX, self.id),
+        Utils::endpoint(@intent.bot.user_slug, @intent.bot.slug, Utils::INTENTS_SUFFIX, @intent.slug, Utils::EXPRESSIONS_SUFFIX, self.id),
         headers: {
-          'Authorization': "Token #{@intent.bot.developer_token}"
+          'Authorization' => "Token #{@intent.bot.developer_token}"
         }
       )
       RecastError::raise_if_error response, 200
