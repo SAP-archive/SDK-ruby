@@ -72,6 +72,8 @@ module RecastAI
         body: expression.to_json
       )
       RecastError::raise_if_error response, 201
+
+      return Expression.new JSON.parse(response.body)['results'], self
     end
 
     def delete!
