@@ -34,6 +34,18 @@ module RecastAI
       as_json.to_json
     end
 
+    def save!
+      response = HTTParty.put(
+        Utils::endpoint(@intent.bot.user_slug, @intent.bot.slug, Utils::INTENTS_SUFFIX, @intent.slug, Utils::EXPRESSIONS_SUFFIX, self.id),
+        headers: {
+          'Authorization' => "Token #{@intent.bot.developer_token}",
+          'Content-Type'  => 'application/json'
+        },
+        body: self.to_json
+      )
+      RecastError::raise_if_error response
+    end
+
     def delete!
       response = HTTParty.delete(
         Utils::endpoint(@intent.bot.user_slug, @intent.bot.slug, Utils::INTENTS_SUFFIX, @intent.slug, Utils::EXPRESSIONS_SUFFIX, self.id),
