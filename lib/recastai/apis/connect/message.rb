@@ -19,7 +19,7 @@ module RecastAI
 
       response = HTTParty.post(
         "#{Utils::CONVERSATION_ENDPOINT}#{conversation_id}/messages",
-        body: { messages: payload },
+        body: { messages: payload.to_json },
         headers: { 'Authorization' => "Token #{token}" }
       )
       raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 201
@@ -33,7 +33,7 @@ module RecastAI
 
       response = HTTParty.post(
         Utils::MESSAGE_ENDPOINT,
-        body: { messages: payload },
+        body: { messages: payload.to_json },
         headers: { 'Authorization' => "Token #{token}" }
       )
       raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 201
