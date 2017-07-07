@@ -5,7 +5,7 @@ module RecastAI
     # Versioning
     MAJOR = '3'.freeze
     MINOR = '1'.freeze
-    MICRO = '1'.freeze
+    MICRO = '2'.freeze
     VERSION = "#{MAJOR}.#{MINOR}.#{MICRO}".freeze
 
     # Endpoints
