@@ -34,6 +34,17 @@ module RecastAI
       Expression.new(body['results'], self)
     end
 
+    def find_all_expressions
+      response = HTTParty.get(
+        Utils::endpoint(@bot.user_slug, @bot.slug, Utils::INTENTS_SUFFIX, @slug, Utils::EXPRESSIONS_SUFFIX),
+        headers: { 'Authorization' => "Token #{@bot.developer_token}" }
+      )
+      RecastError::raise_if_error response, 200
+
+      body = JSON.parse(response.body)
+      @expressions = body['results'].map {|e| Expression.new(e, self) }
+    end
+
     def as_json(options = {})
       data = {
         name: name,
