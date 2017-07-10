@@ -26,7 +26,7 @@ module RecastAI
     def find_expression_by_id(id)
       response = HTTParty.get(
         Utils::endpoint(@bot.user_slug, @bot.slug, Utils::INTENTS_SUFFIX, @slug, Utils::EXPRESSIONS_SUFFIX, id),
-        headers: { 'Authorization' => "Token #{@token}" }
+        headers: { 'Authorization' => "Token #{@bot.developer_token}" }
       )
       RecastError::raise_if_error response, 200
 
