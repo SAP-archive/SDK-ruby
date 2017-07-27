@@ -71,6 +71,10 @@ module RecastAI
         body: self.to_json
       )
       RecastError::raise_if_error response
+
+      # Recast updates the slug along with the name
+      body = JSON.parse(response.body)
+      @slug = body['results']['slug']
     end
 
     def create_expression(expression)
