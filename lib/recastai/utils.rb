@@ -5,8 +5,8 @@ module RecastAI
     # Versioning
     MAJOR = '3'.freeze
     MINOR = '1'.freeze
-    MICRO = '2'.freeze
-    VERSION = "#{MAJOR}.#{MINOR}.#{MICRO}".freeze
+    PATCH = '2'.freeze
+    VERSION = "#{MAJOR}.#{MINOR}.#{PATCH}".freeze
 
     # Endpoints
     TRAIN_ENDPOINT = 'https://api.recast.ai/v2/'.freeze
