@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+
+require_relative '../lib/recastai'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: recastcli -[-t]oken TOKEN <--text TEXT | --file FILE>"
+
+  opts.on('-t', '--token=TOKEN', String, "the request token to use for the call") do |t|
+    options[:token] = t
+  end
+
+  opts.on('--text=TEXT', String, 'the text to process') do |t|
+    options[:text] = t
+  end
+
+  opts.on('--file=FILE', String, 'the file to process') do |f|
+    options[:file] = f
+  end
+
+  opts.on("-h", "--help", "Prints this help") do
+    puts opts
+    exit
+  end
+end.parse!
+
+client = RecastAI::Client.new(options[:token])
+
+if options[:text]
+  response = client.request.analyse_text(options[:text])
+elsif options[:file]
+  response = client.request.analyse_file(options[:file])
+else
+  raise OptionParser::MissingArgument.new('You need to give either --text or --file')
+end
+
+puts response.intent
