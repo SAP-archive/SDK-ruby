@@ -22,7 +22,7 @@ module RecastAI
 
     def as_json(options = {})
       data = {
-        source: slug,
+        slug: slug,
         value: value,
         language: language.as_json
       }
