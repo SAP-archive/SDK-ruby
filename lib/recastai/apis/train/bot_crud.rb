@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require_relative 'models/bot'
+require_relative 'models/entity'
 require_relative '../errors'
 require_relative 'utils'
 
