@@ -6,7 +6,7 @@ require 'json'
 
 module RecastAI
   class Gazette
-    attr_accessor :id, :slug, :is_open, :is_activated, :strictness, :synonyms
+    attr_accessor :id, :slug, :is_open, :is_activated, :strictness, :synonyms, :entity
     alias_method :open?, :is_open
     alias_method :active?, :is_activated
     attr_accessor :bot
@@ -21,8 +21,8 @@ module RecastAI
         @slug = response['slug']
         @is_open = response['is_open']
         @is_activated = response['is_activated']
-        @synonyms =  (response['synonyms'] || []).map {|e| Synonym.new e, self }
-        # TODO: handle entity
+        @synonyms = (response['synonyms'] || []).map {|e| Synonym.new e, self }
+        @entity = Entity.new response['entity']
       end
     end
 
@@ -31,7 +31,8 @@ module RecastAI
         slug: slug,
         is_open: is_open,
         is_activated: is_activated,
-        synonyms: synonyms ? synonyms.map {|e| e.as_json} : nil
+        synonyms: synonyms ? synonyms.map {|e| e.as_json} : nil,
+        entity_id: entity.slug
       }
       data[:id] = id if id
 
