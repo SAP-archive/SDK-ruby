@@ -2,6 +2,7 @@
 
 require_relative '../utils'
 require_relative 'intent'
+require_relative 'gazette'
 
 module RecastAI
   class Bot
@@ -30,8 +31,8 @@ module RecastAI
         @children_count = response['children_count']
         @parent = response['parent']
         @intents = response['intents'].map {|i| Intent.new(i, self) }
+        @gazettes = response['gazettes'].map {|g| Gazette.new(g, self) }
         @actions = response['actions']
-        @gazettes = response['gazettes']
         @language = response['language']
         @user_nickname = response['user']['nickname']
       end
@@ -71,6 +72,17 @@ module RecastAI
 
       body = JSON.parse(response.body)
       @intents = body['results'].map {|i| Intent.new(i, self) }
+    end
+
+    def find_all_gazettes
+      response = HTTParty.get(
+        Utils::endpoint(@user_slug, @slug, Utils::GAZETTES_SUFFIX),
+        headers: { 'Authorization' => "Token #{@developer_token}" }
+      )
+      RecastError::raise_if_error response, 200
+
+      body = JSON.parse(response.body)
+      @gazettes = body['results'].map {|g| Gazette.new(g, self) }
     end
 
     def empty!

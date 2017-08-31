@@ -5,6 +5,8 @@ module RecastAI
     BOTS_SUFFIX = 'bots'.freeze
     INTENTS_SUFFIX = 'intents'.freeze
     EXPRESSIONS_SUFFIX = 'expressions'.freeze
+    GAZETTES_SUFFIX = 'gazettes'.freeze
+    SYNONYMS_SUFFIX = 'synonyms'.freeze
 
     def self.endpoint(user_name, bot_name, *suffixes)
       suffixes = suffixes.join('/')
