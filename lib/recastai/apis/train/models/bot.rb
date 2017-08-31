@@ -85,6 +85,20 @@ module RecastAI
       @gazettes = body['results'].map {|g| Gazette.new(g, self) }
     end
 
+    def create_gazette(gazette)
+      response = HTTParty.post(
+        Utils::endpoint(@user_slug, @slug, Utils::GAZETTES_SUFFIX),
+        headers: {
+          'Authorization' => "Token #{@developer_token}",
+          'Content-Type'  => 'application/json'
+        },
+        body: gazette.to_json
+      )
+      RecastError::raise_if_error response, 201
+
+      return Gazette.new JSON.parse(response.body)['results'], self
+    end
+
     def empty!
       self.find_all_intents.each do |i|
         i.delete!
