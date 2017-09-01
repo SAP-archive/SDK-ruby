@@ -4,8 +4,7 @@ require_relative '../utils'
 
 module RecastAI
   class Entity
-    attr_reader :id
-    attr_accessor :slug, :name, :color, :custom, :developer_token, :request_token
+    attr_accessor :id, :slug, :name, :color, :custom, :developer_token, :request_token
 
     def initialize(response = nil)
       if response
