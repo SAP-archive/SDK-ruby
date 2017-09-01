@@ -45,6 +45,9 @@ module RecastAI
         body: self.to_json
       )
       RecastError::raise_if_error response
+
+      # Return a fresh expression (eg. with tokens)
+      return Expression.new JSON.parse(response.body)['results'], self.intent
     end
 
     def delete!
