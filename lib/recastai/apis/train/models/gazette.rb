@@ -21,6 +21,7 @@ module RecastAI
         @slug = response['slug']
         @is_open = response['is_open']
         @is_activated = response['is_activated']
+        @strictness = response['strictness']
         @synonyms = (response['synonyms'] || []).map {|e| Synonym.new e, self }
         @entity = Entity.new response['entity']
       end
@@ -31,6 +32,7 @@ module RecastAI
         slug: slug,
         is_open: is_open,
         is_activated: is_activated,
+        strictness: strictness,
         synonyms: synonyms ? synonyms.map {|e| e.as_json} : nil,
         entity_id: entity.slug
       }
@@ -72,7 +74,6 @@ module RecastAI
 
 
     def create_synonym(synonym)
-      puts synonym
       response = HTTParty.post(
         Utils::endpoint(@bot.user_slug, @bot.slug, Utils::GAZETTES_SUFFIX, @slug, Utils::SYNONYMS_SUFFIX),
         headers: {
