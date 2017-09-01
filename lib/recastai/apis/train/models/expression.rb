@@ -23,7 +23,8 @@ module RecastAI
     def as_json(options = {})
       data = {
         source: source,
-        language: language.as_json
+        language: language.as_json,
+        tokens: tokens
       }
       data[:id] = id if id
 
