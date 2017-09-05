@@ -37,7 +37,7 @@ module RecastAI
 
     def save!
       response = HTTParty.put(
-        Utils::endpoint(@gazette.bot.user_slug, @gazette.bot.slug, Utils::GAZETTES_SUFFIX, @gazette.slug, Utils::SYNONYMS_SUFFIX, self.id),
+        Utils::endpoint(@gazette.bot.user_slug, @gazette.bot.slug, Utils::GAZETTES_SUFFIX, @gazette.slug, Utils::SYNONYMS_SUFFIX, self.slug),
         headers: {
           'Authorization' => "Token #{@gazette.bot.developer_token}",
           'Content-Type'  => 'application/json'
@@ -49,7 +49,7 @@ module RecastAI
 
     def delete!
       response = HTTParty.delete(
-        Utils::endpoint(@gazette.bot.user_slug, @gazette.bot.slug, Utils::GAZETTES_SUFFIX, @gazette.slug, Utils::SYNONYMS_SUFFIX, self.id),
+        Utils::endpoint(@gazette.bot.user_slug, @gazette.bot.slug, Utils::GAZETTES_SUFFIX, @gazette.slug, Utils::SYNONYMS_SUFFIX, self.slug),
         headers: {
           'Authorization' => "Token #{@intent.bot.developer_token}"
         }
