@@ -72,6 +72,16 @@ module RecastAI
       @synonyms = body['results'].map {|e| Synonym.new(e, self) }
     end
 
+    def find_synonym_by_slug(slug)
+      response = HTTParty.get(
+        Utils::endpoint(self.bot.user_slug, self.bot.slug, Utils::GAZETTES_SUFFIX, self.slug, Utils::SYNONYMS_SUFFIX, slug),
+        headers: { 'Authorization' => "Token #{self.bot.developer_token}" }
+      )
+      RecastError::raise_if_error response, 200
+
+      body = JSON.parse(response.body)
+      Synonym.new(body['results'], self)
+    end
 
     def create_synonym(synonym)
       response = HTTParty.post(
