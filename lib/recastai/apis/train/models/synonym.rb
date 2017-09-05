@@ -51,7 +51,7 @@ module RecastAI
       response = HTTParty.delete(
         Utils::endpoint(@gazette.bot.user_slug, @gazette.bot.slug, Utils::GAZETTES_SUFFIX, @gazette.slug, Utils::SYNONYMS_SUFFIX, self.slug),
         headers: {
-          'Authorization' => "Token #{@intent.bot.developer_token}"
+          'Authorization' => "Token #{@gazette.bot.developer_token}"
         }
       )
       RecastError::raise_if_error response, 200
