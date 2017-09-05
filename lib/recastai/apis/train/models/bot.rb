@@ -85,6 +85,17 @@ module RecastAI
       @gazettes = body['results'].map {|g| Gazette.new(g, self) }
     end
 
+    def find_gazette_by_slug(slug)
+      response = HTTParty.get(
+        Utils::endpoint(@user_slug, @slug, Utils::GAZETTES_SUFFIX, slug),
+        headers: { 'Authorization' => "Token #{@developer_token}" }
+      )
+      RecastError::raise_if_error response, 200
+
+      body = JSON.parse(response.body)
+      Gazette.new(body['results'], self)
+    end
+
     def create_gazette(gazette)
       response = HTTParty.post(
         Utils::endpoint(@user_slug, @slug, Utils::GAZETTES_SUFFIX),
