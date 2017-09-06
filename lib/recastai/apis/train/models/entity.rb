@@ -6,7 +6,7 @@ module RecastAI
   class Entity
     attr_accessor :id, :slug, :name, :color, :custom, :developer_token, :request_token
 
-    def initialize(response = nil)
+    def initialize(response = nil, extra_data = nil)
       if response
         @id = response['id']
         @name = response['name']
