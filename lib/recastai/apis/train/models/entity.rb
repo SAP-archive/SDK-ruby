@@ -41,8 +41,6 @@ module RecastAI
         },
         body: self.to_json
       )
-      puts "R=#{response}"
-      puts response
       RecastError::raise_if_error response, 201
 
       return Entity.new JSON.parse(response.body)['results']
