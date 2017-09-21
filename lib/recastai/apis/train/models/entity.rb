@@ -8,11 +8,15 @@ module RecastAI
 
     def initialize(response = nil, extra_data = nil)
       if response
-        @id = response['id']
-        @name = response['name']
-        @slug = response['slug']
-        @color = response['color']
-        @custom = response['custom']
+        if response.kind_of? Hash
+          @id = response['id']
+          @name = response['name']
+          @slug = response['slug']
+          @color = response['color']
+          @custom = response['custom']
+        else
+          @name = response
+        end
       end
     end
 
