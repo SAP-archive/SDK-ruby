@@ -114,6 +114,9 @@ module RecastAI
       self.find_all_intents.each do |i|
         i.delete!
       end
+      self.find_all_gazettes.each do |g|
+        g.delete!
+      end
     end
   end
 end
