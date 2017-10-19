@@ -28,7 +28,7 @@ module RecastAI
       response = HTTParty.post("#{RecastAI::Utils::BUILD_ENDPOINT}/dialog", body: body.to_json, headers: self.headers)
       raise RecastAI::RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
 
-      res = JSON.parse(response.body)
+      res = JSON.parse(response.body)['results']
       RecastAI::DialogResponse.new(res['messages'], res['conversation'], res['nlp'])
     end
 
