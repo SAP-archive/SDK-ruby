@@ -4,8 +4,8 @@ module RecastAI
   class Utils
     # Versioning
     MAJOR = '3'.freeze
-    MINOR = '1'.freeze
-    PATCH = '3'.freeze
+    MINOR = '2'.freeze
+    PATCH = '0'.freeze
     VERSION = "#{MAJOR}.#{MINOR}.#{PATCH}".freeze
 
     # Endpoints
