@@ -9,13 +9,14 @@ require 'httmultiparty'
 require 'recastai/utils'
 require 'recastai/apis/connect/connect'
 require 'recastai/apis/request/request'
+require 'recastai/apis/build/build'
 
 module RecastAI
   class Client
     attr_reader :token, :language
 
     def initialize(token = nil, language = nil)
-      [RecastAI::Request, RecastAI::Connect].each do |api|
+      [RecastAI::Request, RecastAI::Connect, RecastAI::Build].each do |api|
         i = api.name.rindex('::')
         name = i.nil? ? api.name : api.name[(i + 2)..-1]
 

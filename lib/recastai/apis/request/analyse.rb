@@ -21,7 +21,7 @@ module RecastAI
       )
       raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
 
-      Response.new(response.body)
+      Response.new(JSON.parse(response.body))
     end
 
     def analyse_file(file, token: nil, language: nil)
@@ -39,7 +39,7 @@ module RecastAI
       )
       raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
 
-      Response.new(response.body)
+      Response.new(JSON.parse(response.body))
     end
   end
 end

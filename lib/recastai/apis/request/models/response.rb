@@ -21,9 +21,7 @@ module RecastAI
     attr_reader :status
 
     def initialize(response)
-      @raw = response
-
-      response = JSON.parse(response)
+      @raw = JSON.dump(response)
       response = response['results']
 
       @uuid                = response['uuid']
