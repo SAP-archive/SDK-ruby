@@ -8,8 +8,8 @@ module RecastAI
   class Bot
     attr_reader :id, :name, :description, :public, :strictness,
       :request_token, :children_count, :parent, :intents,
-      :actions, :gazettes, :language, :user_nickname
-    attr_accessor :user_slug, :slug, :developer_token
+      :actions, :gazettes, :user_nickname
+    attr_accessor :user_slug, :slug, :developer_token, :language
 
     def initialize(response = nil, user_slug = nil)
       @raw = response
@@ -109,6 +109,32 @@ module RecastAI
 
       return Gazette.new JSON.parse(response.body)['results'], self
     end
+
+    def as_json(options = {})
+      # For now, save only the language
+      data = {
+        language: language,
+      }
+
+      data
+    end
+
+    def to_json(*a)
+      as_json.to_json
+    end
+
+    def save!
+      response = HTTParty.put(
+        Utils::endpoint(@user_slug, @slug),
+        headers: {
+          'Authorization' => "Token #{@developer_token}",
+          'Content-Type'  => 'application/json'
+        },
+        body: self.to_json
+      )
+      RecastError::raise_if_error response
+    end
+
 
     def empty!
       self.find_all_intents.each do |i|
