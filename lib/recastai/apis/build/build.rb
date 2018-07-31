@@ -19,12 +19,8 @@ module RecastAI
       { 'Authorization' => "Token #{@token}", 'Content-Type' => 'application/json' }
     end
 
-    def dialog(msg, conversation_id, language = nil, options)
+    def dialog(msg, conversation_id, language = nil)
       raise RecastAI::RecastError.new('Token is missing') unless @token
-
-      memory = options[:memory] || {}
-      log_level = options[:log_level] || ""
-      proxy = options[:proxy] || {}
 
       language = @language if language.nil?
       body = { message: msg, conversation_id: conversation_id, language: language }
