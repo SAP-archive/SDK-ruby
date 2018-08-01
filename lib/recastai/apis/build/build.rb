@@ -19,15 +19,15 @@ module RecastAI
       { 'Authorization' => "Token #{@token}", 'Content-Type' => 'application/json' }
     end
 
-    def dialog(msg, conversation_id, language = nil, options)
+    def dialog(msg, conversation_id, language = nil, options = {})
       raise RecastAI::RecastError.new('Token is missing') unless @token
 
       memory = options[:memory] || {}
-      log_level = options[:log_level] || {}
+      log_level = options[:log_level] || "info"
       proxy = options[:proxy] || {}
 
       language = @language if language.nil?
-      body = { message: msg, conversation_id: conversation_id, language: language }
+      body = { message: msg, conversation_id: conversation_id, language: language, memory: memory, log_level: log_level, proxy: proxy }
 
       response = HTTParty.post("#{RecastAI::Utils::BUILD_ENDPOINT}/dialog", body: body.to_json, headers: self.headers)
       raise RecastAI::RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
