@@ -22,14 +22,14 @@ module RecastAI
     def dialog(msg, conversation_id, language = nil, options = {})
       raise RecastAI::RecastError.new('Token is missing') unless @token
 
-      memory = options[:memory] || {}
       log_level = options[:log_level] || "info"
       proxy = options[:proxy] || {}
 
       language = @language if language.nil?
-      body = { message: msg, conversation_id: conversation_id, language: language, memory: memory, log_level: log_level, proxy: proxy}
+      body = { message: msg, conversation_id: conversation_id, language: language, log_level: log_level}
+      body[:memory] = options[:memory] unless options[:memory].nil?
 
-      if proxy
+      if proxy != {}
         uri = URI(proxy[:host])
         response = Net::HTTP.new(uri.host, uri.port)
       end
@@ -38,8 +38,7 @@ module RecastAI
       raise RecastAI::RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
 
       res = JSON.parse(response.body)['results']
-      res['logs'] = log_level if log_level
-      RecastAI::DialogResponse.new(res['messages'], res['conversation'], res['nlp'], res['logs'])
+      RecastAI::DialogResponse.new(res['messages'], res['conversation'], res['nlp'])
     end
 
     def update_conversation(user, bot, conversation_id, opts)
