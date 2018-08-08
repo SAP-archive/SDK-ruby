@@ -29,16 +29,16 @@ module RecastAI
       body = { message: msg, conversation_id: conversation_id, language: language, log_level: log_level}
       body[:memory] = options[:memory] unless options[:memory].nil?
 
+      options = { body: body.to_json, headers: self.headers }
       if proxy != {}
-        uri = URI(proxy[:host])
-        response = Net::HTTP.new(uri.host, uri.port)
+        options[:http_proxyaddr] = proxy[:host]
+        options[:http_proxyport] = proxy[:port]
       end
-
-      response = HTTParty.post("#{RecastAI::Utils::BUILD_ENDPOINT}/dialog", body: body.to_json, headers: self.headers)
+      response = HTTParty.post("#{RecastAI::Utils::BUILD_ENDPOINT}/dialog", options)
       raise RecastAI::RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
 
       res = JSON.parse(response.body)['results']
-      RecastAI::DialogResponse.new(res['messages'], res['conversation'], res['nlp'])
+      RecastAI::DialogResponse.new(res['messages'], res['conversation'], res['nlp'], res['logs'])
     end
 
     def update_conversation(user, bot, conversation_id, opts)
