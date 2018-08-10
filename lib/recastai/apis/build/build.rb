@@ -19,17 +19,26 @@ module RecastAI
       { 'Authorization' => "Token #{@token}", 'Content-Type' => 'application/json' }
     end
 
-    def dialog(msg, conversation_id, language = nil)
+    def dialog(msg, conversation_id, language = nil, options = {})
       raise RecastAI::RecastError.new('Token is missing') unless @token
 
-      language = @language if language.nil?
-      body = { message: msg, conversation_id: conversation_id, language: language }
+      log_level = options[:log_level] || "info"
+      proxy = options[:proxy] || {}
 
-      response = HTTParty.post("#{RecastAI::Utils::BUILD_ENDPOINT}/dialog", body: body.to_json, headers: self.headers)
+      language = @language if language.nil?
+      body = { message: msg, conversation_id: conversation_id, language: language, log_level: log_level}
+      body[:memory] = options[:memory] unless options[:memory].nil?
+
+      options = { body: body.to_json, headers: self.headers }
+      if proxy != {}
+        options[:http_proxyaddr] = proxy[:host]
+        options[:http_proxyport] = proxy[:port]
+      end
+      response = HTTParty.post("#{RecastAI::Utils::BUILD_ENDPOINT}/dialog", options)
       raise RecastAI::RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
 
       res = JSON.parse(response.body)['results']
-      RecastAI::DialogResponse.new(res['messages'], res['conversation'], res['nlp'])
+      RecastAI::DialogResponse.new(res['messages'], res['conversation'], res['nlp'], res['logs'])
     end
 
     def update_conversation(user, bot, conversation_id, opts)
