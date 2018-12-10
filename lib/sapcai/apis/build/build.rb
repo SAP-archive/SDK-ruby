@@ -41,32 +41,32 @@ module Sapcai
       Sapcai::DialogResponse.new(res['messages'], res['conversation'], res['nlp'], res['logs'])
     end
 
-    def update_conversation(user, bot, conversation_id, opts)
+    def update_conversation(user, bot, version, conversation_id, opts)
       raise Sapcai::SapcaiError.new('Token is missing') unless @token
 
       body = opts
 
-      url = "#{Sapcai::Utils::BUILD_ENDPOINT}/users/#{user}/bots/#{bot}/builders/v1/conversation_states/#{conversation_id}"
+      url = "#{Sapcai::Utils::BUILD_ENDPOINT}/users/#{user}/bots/#{bot}/versions/#{version}/builder/v1/conversation_states/#{conversation_id}"
       response = HTTParty.put(url, body: body.to_json, headers: self.headers)
       raise Sapcai::SapcaiError.new(JSON.parse(response.body)['message']) if response.code != 200
 
       Sapcai::DialogConversation.new(JSON.parse(response.body)['results'])
     end
 
-    def get_conversation(user, bot, conversation_id)
+    def get_conversation(user, bot, version, conversation_id)
       raise Sapcai::SapcaiError.new('Token is missing') unless @token
 
-      url = "#{Sapcai::Utils::BUILD_ENDPOINT}/users/#{user}/bots/#{bot}/builders/v1/conversation_states/#{conversation_id}"
+      url = "#{Sapcai::Utils::BUILD_ENDPOINT}/users/#{user}/bots/#{bot}/versions/#{version}/builder/v1/conversation_states/#{conversation_id}"
       response = HTTParty.get(url, headers: self.headers)
       raise Sapcai::SapcaiError.new(JSON.parse(response.body)['message']) if response.code != 200
 
       Sapcai::DialogConversation.new(JSON.parse(response.body)['results'])
     end
 
-    def delete_conversation(user, bot, conversation_id)
+    def delete_conversation(user, bot, version, conversation_id)
       raise Sapcai::SapcaiError.new('Token is missing') unless @token
 
-      url = "#{Sapcai::Utils::BUILD_ENDPOINT}/users/#{user}/bots/#{bot}/builders/v1/conversation_states/#{conversation_id}"
+      url = "#{Sapcai::Utils::BUILD_ENDPOINT}/users/#{user}/bots/#{bot}/versions/#{version}/builder/v1/conversation_states/#{conversation_id}"
       response = HTTParty.delete(url, headers: self.headers)
       raise Sapcai::SapcaiError.new(JSON.parse(response.body)['message']) if response.code != 204
 
