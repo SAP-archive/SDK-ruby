@@ -23,7 +23,7 @@ This gem supports ruby 2.3+.
 gem install Sapcai
 ```
 
-You can now use the sdk in your code.
+You can now use the sdk in your code. All you need is your bot's token. In case you have enabled our versioning feature in the settings of your bot, you can refer to our [versioning documentation](https://cai.tools.sap/docs/concepts/versioning) to learn how to select the appropriate token for you versions and environments.
 
 Using the entire SDK:
 ```ruby
