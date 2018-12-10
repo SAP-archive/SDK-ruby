@@ -6,7 +6,7 @@ require_relative 'dialog_response'
 require_relative 'dialog_message'
 require_relative 'dialog_conversation'
 
-module RecastAI
+module Sapcai
   class Build
     attr_reader :token, :language
 
@@ -20,7 +20,7 @@ module RecastAI
     end
 
     def dialog(msg, conversation_id, language = nil, options = {})
-      raise RecastAI::RecastError.new('Token is missing') unless @token
+      raise Sapcai::SapcaiError.new('Token is missing') unless @token
 
       log_level = options[:log_level] || "info"
       proxy = options[:proxy] || {}
@@ -34,41 +34,41 @@ module RecastAI
         options[:http_proxyaddr] = proxy[:host]
         options[:http_proxyport] = proxy[:port]
       end
-      response = HTTParty.post("#{RecastAI::Utils::BUILD_ENDPOINT}/dialog", options)
-      raise RecastAI::RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
+      response = HTTParty.post("#{Sapcai::Utils::BUILD_ENDPOINT}/dialog", options)
+      raise Sapcai::SapcaiError.new(JSON.parse(response.body)['message']) if response.code != 200
 
       res = JSON.parse(response.body)['results']
-      RecastAI::DialogResponse.new(res['messages'], res['conversation'], res['nlp'], res['logs'])
+      Sapcai::DialogResponse.new(res['messages'], res['conversation'], res['nlp'], res['logs'])
     end
 
     def update_conversation(user, bot, conversation_id, opts)
-      raise RecastAI::RecastError.new('Token is missing') unless @token
+      raise Sapcai::SapcaiError.new('Token is missing') unless @token
 
       body = opts
 
-      url = "#{RecastAI::Utils::BUILD_ENDPOINT}/users/#{user}/bots/#{bot}/builders/v1/conversation_states/#{conversation_id}"
+      url = "#{Sapcai::Utils::BUILD_ENDPOINT}/users/#{user}/bots/#{bot}/builders/v1/conversation_states/#{conversation_id}"
       response = HTTParty.put(url, body: body.to_json, headers: self.headers)
-      raise RecastAI::RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
+      raise Sapcai::SapcaiError.new(JSON.parse(response.body)['message']) if response.code != 200
 
-      RecastAI::DialogConversation.new(JSON.parse(response.body)['results'])
+      Sapcai::DialogConversation.new(JSON.parse(response.body)['results'])
     end
 
     def get_conversation(user, bot, conversation_id)
-      raise RecastAI::RecastError.new('Token is missing') unless @token
+      raise Sapcai::SapcaiError.new('Token is missing') unless @token
 
-      url = "#{RecastAI::Utils::BUILD_ENDPOINT}/users/#{user}/bots/#{bot}/builders/v1/conversation_states/#{conversation_id}"
+      url = "#{Sapcai::Utils::BUILD_ENDPOINT}/users/#{user}/bots/#{bot}/builders/v1/conversation_states/#{conversation_id}"
       response = HTTParty.get(url, headers: self.headers)
-      raise RecastAI::RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
+      raise Sapcai::SapcaiError.new(JSON.parse(response.body)['message']) if response.code != 200
 
-      RecastAI::DialogConversation.new(JSON.parse(response.body)['results'])
+      Sapcai::DialogConversation.new(JSON.parse(response.body)['results'])
     end
 
     def delete_conversation(user, bot, conversation_id)
-      raise RecastAI::RecastError.new('Token is missing') unless @token
+      raise Sapcai::SapcaiError.new('Token is missing') unless @token
 
-      url = "#{RecastAI::Utils::BUILD_ENDPOINT}/users/#{user}/bots/#{bot}/builders/v1/conversation_states/#{conversation_id}"
+      url = "#{Sapcai::Utils::BUILD_ENDPOINT}/users/#{user}/bots/#{bot}/builders/v1/conversation_states/#{conversation_id}"
       response = HTTParty.delete(url, headers: self.headers)
-      raise RecastAI::RecastError.new(JSON.parse(response.body)['message']) if response.code != 204
+      raise Sapcai::SapcaiError.new(JSON.parse(response.body)['message']) if response.code != 204
 
       true
     end

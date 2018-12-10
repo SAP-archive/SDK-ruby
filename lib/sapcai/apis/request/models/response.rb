@@ -4,7 +4,7 @@ require_relative 'intent'
 require_relative 'entity'
 require_relative '../utils'
 
-module RecastAI
+module Sapcai
   class Response
     attr_reader :raw
     attr_reader :uuid

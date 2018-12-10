@@ -3,7 +3,7 @@
 require_relative 'analyse'
 require_relative 'converse'
 
-module RecastAI
+module Sapcai
   class Request
     include Converse
     include Analyse

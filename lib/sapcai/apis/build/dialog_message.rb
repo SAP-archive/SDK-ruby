@@ -1,9 +1,9 @@
-module RecastAI
+module Sapcai
   class DialogMessage
     attr_reader :type, :content
 
     def initialize(msg)
-      raise RecastAI::RecastError('Invalid message format') unless message_is_valid(msg)
+      raise Sapcai::SapcaiError('Invalid message format') unless message_is_valid(msg)
       @type = msg['type']
       @content = msg['content']
     end

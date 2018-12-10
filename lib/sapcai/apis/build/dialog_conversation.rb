@@ -1,4 +1,4 @@
-module RecastAI
+module Sapcai
   class DialogConversation
     attr_reader :id, :language, :memory, :skill, :skill_occurences
 
