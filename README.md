@@ -48,7 +48,7 @@ connect.broadcast_message('Hi')
 
 ## More
 
-You can view the whole API reference at [cai.tool.sap/docs/](https://cai.tool.sap/docs/).
+You can view the whole API reference at [cai.tool.sap/docs/](https://cai.tool.sap/docs/api-reference).
 
 
 ## Author
