@@ -46,7 +46,7 @@ module Sapcai
 
       body = opts
 
-      url = "#{Sapcai::Utils::BUILD_ENDPOINT}/users/#{user}/bots/#{bot}/versions/#{version}/builder/v1/conversation_states/#{conversation_id}"
+      url = "#{Sapcai::Utils::BUILD_ENDPOINT}/users/#{user}/bots/#{bot}/versions/#{version}/builder/conversation_states/#{conversation_id}"
       response = HTTParty.put(url, body: body.to_json, headers: self.headers)
       raise Sapcai::SapcaiError.new(JSON.parse(response.body)['message']) if response.code != 200
 
@@ -56,7 +56,7 @@ module Sapcai
     def get_conversation(user, bot, version, conversation_id)
       raise Sapcai::SapcaiError.new('Token is missing') unless @token
 
-      url = "#{Sapcai::Utils::BUILD_ENDPOINT}/users/#{user}/bots/#{bot}/versions/#{version}/builder/v1/conversation_states/#{conversation_id}"
+      url = "#{Sapcai::Utils::BUILD_ENDPOINT}/users/#{user}/bots/#{bot}/versions/#{version}/builder/conversation_states/#{conversation_id}"
       response = HTTParty.get(url, headers: self.headers)
       raise Sapcai::SapcaiError.new(JSON.parse(response.body)['message']) if response.code != 200
 
@@ -66,7 +66,7 @@ module Sapcai
     def delete_conversation(user, bot, version, conversation_id)
       raise Sapcai::SapcaiError.new('Token is missing') unless @token
 
-      url = "#{Sapcai::Utils::BUILD_ENDPOINT}/users/#{user}/bots/#{bot}/versions/#{version}/builder/v1/conversation_states/#{conversation_id}"
+      url = "#{Sapcai::Utils::BUILD_ENDPOINT}/users/#{user}/bots/#{bot}/versions/#{version}/builder/conversation_states/#{conversation_id}"
       response = HTTParty.delete(url, headers: self.headers)
       raise Sapcai::SapcaiError.new(JSON.parse(response.body)['message']) if response.code != 204
 
