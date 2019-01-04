@@ -50,11 +50,6 @@ connect.broadcast_message('Hi')
 
 You can view the whole API reference at [cai.tool.sap/docs/](https://cai.tool.sap/docs/api-reference).
 
-
-## Author
-
-Paul Renvoisé, paul.renvoise@sap.com, [@paulrenvoise](https://twitter.com/paulrenvoise)
-
 You can follow us on Twitter at [@sapcai](https://twitter.com/sapcai) for updates and releases.
 
 

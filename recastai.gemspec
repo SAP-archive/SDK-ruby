@@ -14,8 +14,7 @@ Gem::Specification.new do |spec|
   spec.description           = 'SAP Conversational AI official SDK for Ruby. Allows you to make requests to your bots.'
   spec.homepage              = 'https://github.com/SAPConversationalAI/SDK-ruby'
   spec.license               = 'MIT'
-  spec.authors               = ['Paul Renvoisé']
-  spec.email                 = 'paul.renvoise@sap.com'
+  spec.authors               = ['SAP CAI team']
   spec.files                 = `git ls-files -z`.split("\x0").reject{ |f| f.match(%r{^(test|spec|features)/}) }
   spec.executables           = ['sapcaicli']
   spec.require_paths         = ['lib']
