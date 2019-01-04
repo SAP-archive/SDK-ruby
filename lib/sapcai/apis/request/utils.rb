@@ -3,8 +3,8 @@
 module Sapcai
   class Utils
     # Endpoints
-    REQUEST_ENDPOINT = 'https://api.cai.tool.sap/v2/request/'.freeze
-    CONVERSE_ENDPOINT = 'https://api.cai.tool.sap/v2/converse/'.freeze
+    REQUEST_ENDPOINT = 'https://api.cai.tools.sap/v2/request/'.freeze
+    CONVERSE_ENDPOINT = 'https://api.cai.tools.sap/v2/converse/'.freeze
 
     # Act constants
     ACT_ASSERT = 'assert'.freeze
