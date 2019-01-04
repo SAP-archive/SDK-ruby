@@ -10,7 +10,7 @@ SAP Conversational AI official SDK in Ruby
 
 ## Synospis
 
-This module is a wrapper around the [SAP Conversational AI](https://cai.tool.sap) API, and allows you to:
+This module is a wrapper around the [SAP Conversational AI](https://cai.tools.sap) API, and allows you to:
 * [Analyse your text](https://github.com/SAPConversationalAI/SDK-Ruby/wiki/01---Analyse-text)
 * [Manage a conversation](https://github.com/SAPConversationalAI/SDK-Ruby/wiki/02---Manage-conversation)
 * [Receive and send messages](https://github.com/SAPConversationalAI/SDK-Ruby/wiki/03---Receive-and-send-messages)
@@ -48,14 +48,14 @@ connect.broadcast_message('Hi')
 
 ## More
 
-You can view the whole API reference at [cai.tool.sap/docs/](https://cai.tool.sap/docs/api-reference).
+You can view the whole API reference at [cai.tool.sap/docs/](https://cai.tools.sap/docs/api-reference).
 
 You can follow us on Twitter at [@sapcai](https://twitter.com/sapcai) for updates and releases.
 
 
 ## License
 
-Copyright (c) [2019] [SAP Conversational AI](https://cai.tool.sap)
+Copyright (c) [2019] [SAP Conversational AI](https://cai.tools.sap)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
