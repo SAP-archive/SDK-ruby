@@ -4,7 +4,7 @@ require 'simplecov'
 SimpleCov.start
 WebMock.disable_net_connect!(allow_localhost: true)
 
-require_relative '../lib/recastai'
+require_relative '../lib/sapcai'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

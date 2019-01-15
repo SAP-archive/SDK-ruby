@@ -4,20 +4,19 @@ dir = File.dirname(__FILE__)
 $LOAD_PATH.unshift(dir) unless $LOAD_PATH.include?(dir)
 
 require 'date'
-require 'lib/recastai/utils'
+require 'lib/sapcai/utils'
 
 Gem::Specification.new do |spec|
-  spec.name                  = 'RecastAI'
-  spec.version               = RecastAI::Utils::VERSION
+  spec.name                  = 'Sapcai'
+  spec.version               = Sapcai::Utils::VERSION
   spec.date                  = Date.today
-  spec.summary               = 'Recast.AI official SDK for Ruby'
-  spec.description           = 'Recast.AI official SDK for Ruby. Allows you to make requests to your bots.'
-  spec.homepage              = 'https://github.com/RecastAI/SDK-ruby'
+  spec.summary               = 'SAP Conversational AI official SDK for Ruby'
+  spec.description           = 'SAP Conversational AI official SDK for Ruby. Allows you to make requests to your bots.'
+  spec.homepage              = 'https://github.com/SAPConversationalAI/SDK-ruby'
   spec.license               = 'MIT'
-  spec.authors               = ['Paul Renvoisé']
-  spec.email                 = 'paul.renvoise@recast.ai'
+  spec.authors               = ['SAP CAI team']
   spec.files                 = `git ls-files -z`.split("\x0").reject{ |f| f.match(%r{^(test|spec|features)/}) }
-  spec.executables           = ['recastcli']
+  spec.executables           = ['sapcaicli']
   spec.require_paths         = ['lib']
   spec.required_ruby_version = '>= 2.2'
 

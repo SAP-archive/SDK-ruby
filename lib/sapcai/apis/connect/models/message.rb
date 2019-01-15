@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-module RecastAI
+module Sapcai
   class Msg
     attr_reader :content, :type, :conversation_id
 

@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-module RecastAI
+module Sapcai
   class Entity
     attr_reader :name
 

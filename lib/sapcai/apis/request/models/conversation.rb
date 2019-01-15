@@ -5,7 +5,7 @@ require_relative 'entity'
 require_relative 'intent'
 require_relative '../utils'
 
-module RecastAI
+module Sapcai
   class Conversation
     attr_reader :raw, :uuid, :source, :replies, :action, :next_actions, :memory, :entities, :sentiment, :intents,
                 :conversation_token, :language, :processing_language, :version, :timestamp, :status
@@ -88,7 +88,7 @@ module RecastAI
         body: body,
         headers: { 'Authorization' => "Token #{@token}" }
       )
-      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
+      raise SapcaiError.new(JSON.parse(response.body)['message']) if response.code != 200
 
       response = JSON.parse(response.body)
       response = response['results']
@@ -104,7 +104,7 @@ module RecastAI
         body: body,
         headers: { 'Authorization' => "Token #{@token}" }
       )
-      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
+      raise SapcaiError.new(JSON.parse(response.body)['message']) if response.code != 200
 
       response = JSON.parse(response.body)
       response = response['results']
@@ -118,7 +118,7 @@ module RecastAI
         body: body,
         headers: { 'Authorization' => "Token #{@token}" }
       )
-      raise RecastError.new(JSON.parse(response.body)['message']) if response.code != 200
+      raise SapcaiError.new(JSON.parse(response.body)['message']) if response.code != 200
 
       response = JSON.parse(response.body)
       response = response['results']

@@ -6,17 +6,17 @@ require 'json'
 require 'httparty'
 require 'httmultiparty'
 
-require 'recastai/utils'
-require 'recastai/apis/connect/connect'
-require 'recastai/apis/request/request'
-require 'recastai/apis/build/build'
+require 'sapcai/utils'
+require 'sapcai/apis/connect/connect'
+require 'sapcai/apis/request/request'
+require 'sapcai/apis/build/build'
 
-module RecastAI
+module Sapcai
   class Client
     attr_reader :token, :language
 
     def initialize(token = nil, language = nil)
-      [RecastAI::Request, RecastAI::Connect, RecastAI::Build].each do |api|
+      [Sapcai::Request, Sapcai::Connect, Sapcai::Build].each do |api|
         i = api.name.rindex('::')
         name = i.nil? ? api.name : api.name[(i + 2)..-1]
 

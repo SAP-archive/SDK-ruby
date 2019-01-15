@@ -2,7 +2,7 @@
 
 require_relative 'message'
 
-module RecastAI
+module Sapcai
   class Connect
     include Message
 

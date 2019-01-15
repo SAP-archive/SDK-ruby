@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-module RecastAI
+module Sapcai
   class Intent
     attr_reader :slug
     attr_reader :confidence
