@@ -9,7 +9,7 @@
 SAP Conversational AI provides several SDKs, which are all open-source and hosted on GitHub.  
 Starting from January 2021, please note that we inform you that the SDKs will not be available anymore and the public repository of the project will be archived from GitHub.  
 
-# ✨ Why are we sunsetting our SDKs? 
+## ✨ Why are we sunsetting our SDKs? 
  
 Firstly, we noticed over the past year that these SDKs were not used much by our users.  
 This is because our platform usage has become easier, including the APIs. 
